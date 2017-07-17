@@ -1,23 +1,19 @@
-Barrel Development Best Practices
-=================================
+# Barrel Best Practices() {
 
-### List of Topics
+The Barrel approach to coding websites..
 
-- [API/REST/Server](restful.md)
-- [CSS & Pre-processing](css.md)
-- [Documentation Guidelines](documentation.md)
-- [Git](git.md)
-- [HTML](html.md)
-- [HTTPS](https.md)
-- [Javascript](javascript.md)
-- [PHP](php.md)
-- [Responsive](responsive.md)
-- [Ruby / RoR](ruby.md)
-- [Shopify](shopify.md)
-- [WordPress](wordpress.md)
-- [SEO](seo.md)
-- [Task Runners](grunt.md)
-- [VM & Testing](http://infocenter.barrelny.com/how-to-browser-testing-procedures/)
+## Table of Contents
+- **Languages**
+    - [Javascript](/languages/javascript.md)
+    - [CSS](/languages/css.md)
+    - [PHP](/languages/php.md)
+- **Platforms**
+    - [Shopfiy](/platforms/shopify.md)
+    - [Wordpress](/platforms/wordpress.md)
+- **Foundations**
+    - [SEO](/foundations/seo.md)
+    - [User Experience](/foundations/seo.md)
+    - [Performance](/foundations/seo.md)
 
 [Formatting Guidelines](formatting-guidelines.md) for this document.
 
@@ -79,9 +75,4 @@ This includes any @author comment.
 #### Production
 
 * All production code should produce assets that are fully compiled or minified and concatenated. See the [Javascript](javascript.md) guide for specific approaches towards including scripts.
-* Avoid unnecessary style overrides in favor of specificity and @media 
 * Limit usage of any framework and configure any frameworks to use as much code as is needed such as only including the components of bootstrap that will be used for your project.
-
-#####TODO
-- Add BP for form management, handling, validation
-- Add BP for testing of all types
