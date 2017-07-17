@@ -36,7 +36,6 @@ The Barrel approach to coding websites..
   - what if this needs to change later?
   - what pieces can I abstract from this piece of code?
 4. Speed
-  - can I make this just as readable/maintainable in vanilla js?
   - what are the performance impacts of this code?
 
 * * *
