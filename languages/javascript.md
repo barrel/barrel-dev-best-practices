@@ -1,26 +1,6 @@
 #### Barrel Development Best Practices
 # JavaScript Best Practices
 
-### Goals and Questions You Should Ask Yourself
-1. Maintainability 
-  - is this going to make sense in 3 months?
-  - what can I document now, to save time later?
-  - how can I simplify this?
-2. Readablity
-  - *contributes to \#1*
-  - are my teammates going to understand this?
-  - what can I do to help my partner use this to their advantage?
-3. Flexibility
-  - can I use this on other projects?
-  - can I use this elsewhere within your current project?
-  - what if this needs to change later?
-  - what pieces can I abstract from this piece of code?
-4. Speed
-  - can I make this just as readable/maintainable in vanilla js?
-  - what are the performance impacts of this code?
-
-* * *
-
 ## Structure
 ```bash
 # in src/js/ directory
