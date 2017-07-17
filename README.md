@@ -2,13 +2,13 @@
 
 The Barrel approach to coding websites..
 
-## 📚 Table of Contents
+### 📚 Table of Contents
 - **Languages**
     - [Javascript](/languages/javascript.md)
     - [CSS](/languages/css.md)
     - [PHP](/languages/php.md)
 - **Platforms**
-    - [Shopfiy](/platforms/shopify.md)
+    - [Shopify](/platforms/shopify.md)
     - [Wordpress](/platforms/wordpress.md)
 - **Foundations**
     - [SEO](/foundations/seo.md)
