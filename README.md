@@ -2,7 +2,7 @@
 
 The Barrel approach to coding websites..
 
-## Table of Contents
+## 📚 Table of Contents
 - **Languages**
     - [Javascript](/languages/javascript.md)
     - [CSS](/languages/css.md)
@@ -15,10 +15,35 @@ The Barrel approach to coding websites..
     - [User Experience](/foundations/seo.md)
     - [Performance](/foundations/seo.md)
 
+* * *
+
 [Formatting Guidelines](formatting-guidelines.md) for this document.
 
-### General Practices
+* * *
+
+#### 📍 Goals and Questions You Should Ask Yourself For Every Project
+1. Maintainability 
+  - is this going to make sense in 3 months?
+  - what can I document now, to save time later?
+  - how can I simplify this?
+2. Readablity
+  - *contributes to \#1*
+  - are my teammates going to understand this?
+  - what can I do to help my partner use this to their advantage?
+3. Flexibility
+  - can I use this on other projects?
+  - can I use this elsewhere within your current project?
+  - what if this needs to change later?
+  - what pieces can I abstract from this piece of code?
+4. Speed
+  - can I make this just as readable/maintainable in vanilla js?
+  - what are the performance impacts of this code?
+
+* * *
+
+### 📍 General Practices
 All projects regardless of the langauges and technologies used have a few common rules and best practices to follow. Please review the individual topics above for more specific cases.
+
 
 #### String Manipulation
 When outputting strings from within code, be sure to use string formatting syntaxes to allow for better readability. See the following code samples.
@@ -72,7 +97,9 @@ PHP or Javascript:
 
 This includes any @author comment.
 
-#### Production
+* * *
+
+#### 📍 Production Basics
 
 * All production code should produce assets that are fully compiled or minified and concatenated. See the [Javascript](javascript.md) guide for specific approaches towards including scripts.
 * Limit usage of any framework and configure any frameworks to use as much code as is needed such as only including the components of bootstrap that will be used for your project.
