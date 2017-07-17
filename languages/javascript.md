@@ -1,5 +1,22 @@
-#### Barrel Development Best Practices
-# JavaScript Best Practices
+### 📚 Table of Contents
+- Read AirBnb Javascript Best Practices
+- Using jQuery
+- Structure
+    - Folders and what they mean
+    - Needed files
+    - Utils
+- Linting
+- Dependency management
+- Modular code
+- DOM References
+- Mutating DOM Styles
+- Templating
+- Avoid heavy nesting
+- Keep files short
+- Beware of race conditions
+- Don't use global scope
+- Your entrypoint
+
 
 ## Structure
 ```bash
@@ -104,9 +121,3 @@ While they are very explicit, they add unecessary visual clutter in large files.
 
 #### When to use `switch()` statements.
 TODO
-
-## Advanced Techniques
-#### TODO
-1. Rendering pipeline
-2. RAIL principles
-3. Web workers
