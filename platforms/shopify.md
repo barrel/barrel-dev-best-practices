@@ -133,10 +133,70 @@ Those are the 7 required directories for a Shopify theme:
 ```
 
 #### Sections
-Sections are similar to Modules as they are elaborated chunk of codes, but their one property that set them appart is that they can have dynamic content created and manipulated within them through the theme settings. More informations [here](https://help.shopify.com/themes/development/theme-editor/sections), but as a short introduction:
+Sections are similar to Modules as they are elaborated chunk of codes, but their one property that set them appart is that they can have dynamic content created and manipulated within them via their `block` settings feature.
+- Sections are added using the `section` tag:
+
+```
+{% section `hero` %}
+```
+
+- Settings for a section are added inside the section file within the `{% schema %}` `{% endschema %}` tag:
+
+```
+{% schema %}
+  {
+    "name": "Hero",
+    "settings": [ {
+        "type": "text",
+        "id": "title",
+        "label": "Title"
+    } ]
+  }
+{% endschema %}
+```
+
 - A section can be **static** or **dynamic**:
 	- Dynamic sections can be added multiple times as independent instances and reordered on the homepage.
 	- Static sections can be added multiple times accross all templates but they would all be considered as one same instance with common settings.
+- Blocks can be added within a limit range or infinitely to a section.
+- Blocks can have a type, and for each type a set of different settings. For example, a `slideshow` section has 2 block types: `Background Image Slide` and `Default Slide`:
+
+```
+{% schema %}
+  {
+    "name": "Hero",
+    "settings": [], 
+    "blocks": [ {
+        "type": "background-image",
+        "name": "Background Image Slide",
+        "settings": [ {
+            "id": "background_image",
+            "type": "image_picker",
+            "label": "Background Image"
+        },{
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        } ]
+    }, {
+        "type": "default",
+        "name": "Default Slide",
+        "settings": [ {
+            "id": "background_color",
+            "type": "color",
+            "label": "Background Color"
+        }, {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        } ]
+    } ]
+  }
+{% endschema %}
+```
+
+- Variables created within a section are not available outside of it.
+- More informations [here](https://help.shopify.com/themes/development/theme-editor/sections).
 - Additional good read for content management flexibility with Sections [here](https://medium.com/@maxrolon/content-management-flexibility-4aabc56aabf2).
 
 * * *
