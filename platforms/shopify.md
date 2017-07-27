@@ -1,248 +1,325 @@
-### Barrel Development Best Practices
-
 # Shopify Best Practices
-----------------------
 
-## Getting Started
+### 📚 Table of Contents
+**1. Basics**
+  - Liquid
+  - Theme Kit
+  - Base Theme
 
-###Tools###
+**2. Building a Theme**
+  - Structure
+  - Templates
+  - Snippets (Modules/Components)
+  - Sections
 
-- Shopify themes use a Ruby-based language called **liquid**, which you can read more about here: [http://docs.shopify.com/themes/liquid-documentation/basics](http://docs.shopify.com/themes/liquid-documentation/basics)
-- **[Timber](https://github.com/Shopify/Timber)** and **[Skeleton](https://github.com/Shopify/skeleton-theme)** are great starter themes to begin with, and great resources in general
-- Use the [Shopify theme gem](https://github.com/Shopify/shopify_theme) to work on a theme locally, with saved changes automatically pushed to the Shopify servers.
-- There are some existing Barrel Shopify projects that have instructions for setting up Grunt-compiled files with the Shopify theme gem. See [Craft and Caro](https://github.com/barrel/craft-and-caro), [DailyBurn](https://github.com/barrel/DailyBurn), and [Parachute Home](https://github.com/barrel/Parachute-v2). 
+**3. Guidelines**
+  - Global
+  - Structure a Snippet
+  - Inclusion
+  - SVG icons
+  - Tutorials
 
-### Theme Structure
+**4. Workflow**
+  - Environments
+  - Shopify Apps
 
-Each theme has at least five directories.
+* * *
 
-- `/assets` contains any files that you want uploaded for global use in your theme (images, stylesheets, js files).
-- `/config` contains files related to [Theme Settings](http://docs.shopify.com/themes/theme-development/templates/settings)
-- `/layout` contains layout templates, which can be thought of as the "master templates" that individual page templates are rendered within. **theme.liquid** is the default layout file
-- `/snippets` creating any **.liquid** file within this directory will allow it to be used as a global snippet
-- `/templates` contains the main theme templates; more on that under the **Templates** heading below
-- `/locales` is optional, containing files related to internationalization/multilanguage support 
+### 📍 1. Basics
+#### Liquid
+Liquid is Shopify's ruby based language that is used to build templates with the help of a set of objects, tags and filters.
+A more thorough documentation can be find [here](https://help.shopify.com/themes/liquid/basics) but just as an introduction:
+  - **Objects** are used to display content stored in the database of your store, like `product`, `collection` or `customer`. Each of those object has attributes that can be output using `{{` `}}` that way:
+  ```
+  This {{ product.title }}} belongs to the {{ collection.title }} and costs $ {{ product.price }}.
+  ```
+  - **Tags** are used for programming logic and help to tell a template what to do. They are wrapped in `{%` `%}` and can be as basic as a `if`/`else` statement or can be a bit more developed like a `capture` or `assign` statement:
+  ```
+  {% if product.title contains 'exceptional' %}
+    This product is exceptional.
+  {% else %}
+    This product is basic.
+  {% endif %}
+  ```
+  - **Filters** are methods thare applied to something that is being output like a string, a number, an object or a variable. They are therefore used inside `{{` `}}` and are seperated by a pipe `|`:
+  ```
+  How much does this {{ product.title | capitalize }} cost? It cost {{ product.title | money_with_currency }}
+  ```
 
-More information on these theme files and folders can be found here: [http://docs.shopify.com/themes/theme-development/templates](http://docs.shopify.com/themes/theme-development/templates)
+#### Theme Kit
+[Theme Kit](https://shopify.github.io/themekit/) is a command line tool used to interact with a Shopify theme. 
+- Actions that can be performed:
+	- Watch for local changes and upload automatically to Shopify
+	- Upload Themes to Multiple Environments
+- Configuration for theme kit can be set up in the `config.yml` file located in the `/dist` directory of the project.
 
+#### Base Theme
+TO DO
 
-### Templates ###
+* * *
 
-These are required for every Shopify theme.
+### 📍 2. Building a Theme
+#### Structure
+Those are the 7 required directories for a Shopify theme:
+- `/assets` - *Contains all images, stylesheets and scripts.*
+- `/config` - *Contains all the global [theme settings](https://help.shopify.com/themes/development/theme-editor/settings-schema).*
+- `/layout` - *Contains the "master" template `theme.liquid`. All templates are rendered inside this one.*
+- `/locales` - *Contains the translation files for the content on the store.*
+- `/sections` - *Contains all* 
+- `/snippets` - *Contains bits of codes that can be called in other templates. (In `/src`, this directory should have 3 sub directories `components`, `modules` and `lib`)*
+- `/templates` - *Contains all the templates.*
 
-+ `404.liquid`
-+ `article.liquid`
-+ `blog.liquid`
-+ `cart.liquid`
-+ `collection.liquid`
-+ `index.liquid`
-+ `list-collections.liquid`
-+ `page.liquid`
-+ `product.liquid`
-+ `search.liquid`
+#### Templates
+- Those are the common templates required for a Shopify theme:
+	- `404` - *Used for all pages with an invalid url.*
+	- `article` - *Used for all blog posts.*
+	- `blog` - *Used for all blog pages.*
+	- `cart`- *Used for the cart page.*
+	- `collection` - *Used for all collections pages.*
+	- `index` - *Used for the homepage.*
+	- `list-collections` - *Used for the collection list page.*
+	- `page` - *Used for all basic pages.*
+	- `product` - *Used for all product pages.*
+	- `search` - *Used for the search results page.*
+	- `gift_card` - *Used for the gift card page communicated to a customer after purchase.*
+- Those are the customer account templates required for a Shopify theme:
+	- `customers/account` - *Used for the customer account homepage.*
+	- `customers/activate_account` - *Used for the activate account form page.*
+	- `customers/addresses`- *Used for the customer addresses list page.*
+	- `customers/login` - *Used for the login form page.*
+	- `customers/order` - *Used for the customer orders history page.*
+	- `customers/register` - *Used for the register form page.*
+	- `customers/reset_password` - *Used for the reset password form page.*
+- Alertnative templates can be created for `article`, `collection`, `page` and `search` and have to be named `name_of_template.new_name.liquid` (for example: `page.custom.liquid`).
 
-For stores with customer accounts enabled, the customer account templates are: 
-
-+ `customers/account.liquid`
-+ `customers/activate_account.liquid`
-+ `customers/addresses.liquid`
-+ `customers/login.liquid`
-+ `customers/order.liquid`
-+ `customers/register.liquid`
-+ `customers/reset_password.liquid`
-
-
-### Shopify JS assets
-
-- The most important Shopify-hosted js asset to include in any theme is **option_selection.js**, which contains a bunch of methods related to displaying product prices correctly (e.g. if the price changes based on selected variants, if a product is sold out, if the currency on the front-end changes). 
-- To include it, use the **shopify_asset_url** filter as so:
-
+#### Snippets (Module/Components)
+- Snippets are chunk of reusable codes that can be included anywhere by using the `include` tag:
 ```
-{{ 'option_selection.js' | shopify_asset_url | script_tag }}
+{% include 'my_snippet' %}
 ```
-
-- Including this on your site will allow you to access a variety of objects, such as the product, its currently-selected variant, and all related attributes. 
-
-- A **selectCallback** method is called whenever a product is loaded on a page. It checks to see what variant of that product is currently selected, and changes the display accordingly. It is usually called in **product.liquid** and/or a snippet of some kind. More on this method can be found here: [http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options](http://docs.shopify.com/support/your-website/themes/can-i-make-my-theme-use-products-with-multiple-options)
-
+- We distinguish 2 main types of snippets: Modules and Components.
+- Components are small chunk of codes without any particular "logic" that can be used as a "tile" to build a module, like: a `button`, an `image` or a `product-item`.
+- Modules are more elebatorated chunk of codes like: a `hero`, a `slideshow` or a `product-grid`.
+- Use parameters to pass content and properties to a snippet:
 ```
-   $(function() {
-     var selectCallback = function(variant, selector) {
-       $product = $('#product-' + selector.product.id);
- 		
-       if (variant && variant.available == true) {
-         ...
-       } else {
-         ...
-       }
-     };
-   });
+{% include 'button', style:'white', value:'Add to Cart' %}
 ```
-
-
-- The **shopify_common.js** and **customer_area.js** files contain a few scripts related to the customer accounts area of your Shopify theme (e.g. province and country dropdowns for the Address section). They are usually included in the header like so:
-
+- Use `with` to define a snippet:
 ```
-{{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+{% include 'button' with 'link' %}
 
-{% if template contains 'customers' %}  
-  {{ 'customer_area.js'  | shopify_asset_url | script_tag }}
-{% endif %}
-```
+// Inside the snippet
 
-
-- The [Shopify AJAX API](http://docs.shopify.com/support/your-website/themes/can-i-use-ajax-api) can be used by including the **api.jquery.js** file in your theme. The methods in that file are primarily related to AJAX-updating the cart (adding, removing, updating products).
-
-```
-{{ 'api.jquery.js' | shopify_asset_url | script_tag }}
-```
-
-###Uploaded Assets###
-- When linking to uploaded assets, make sure to use Shopify's asset syntax (which links to the Shopify CDN-hosted version of the file):
-
-```
-{{ 'icons.png' | asset_url }}
-{{ 'init.js' | asset_url | script_tag }}
-{{ 'style.css' | asset_url | stylesheet_tag }}
-```
-**Be careful of CDN-hosted font-face files -- the CDN files have ?123 versioning added, which doesn't always play well with fonts.*
-
-- If you're using any liquid code in your js or css files -- useful when implementing user Theme Settings -- you'll need to append **.liquid** to the file name. For example, in **style.scss.liquid**:
-
-```
-body.index {
-    background: {{ settings.body_bg_color }}; 
-    color: {{ settings.text_color }}; 
-}
-
-```
-
-### Styling
-- Shopify automatically compiles **.scss** files, so use that to your advantage!
-
-###Checkout Pages###
-
-- Because Shopify's checkout pages are hosted elsewhere (**checkout.shopify.com**), content on that page is not editable. It can only be styled (or rather, re-styled) by reading a theme's **checkout.css** file (**checkout.scss** if the store has "Responsive Checkout" enabled). 
-- In this file, you'll need to override the default checkout styles with ones closer to your theme's appearance.
-- You can also add the **.liquid** extension to this file (e.g. for calling Theme Settings values).
-
-----------------------
-
-##Tips
-
-
-###Template Conditionals###
-
-- Class or ID your body tag based on the template shown (**template-product, template-collection, template-page**, etc.)
-- Use template conditionals to change the page title and SEO/OG tags in the theme header:
-
-```
-{% if template contains "product" %}
-	<meta property="og:title" content="{{ product.title }}" />
-	<meta property="og:type" content="product" />
-	<meta property="og:url" content="{{ shop.url }}{{ product.url }}" />
-	<meta property="og:image" content="{{ product.featured_image | product_img_url: 'original' }}" />
-{% else %}
-	<meta property="og:title" content="{{ shop.name }}" />
-	<meta property="og:url" content="{{ shop.url }}" />
-	<meta property="og:image" content="{{ 'logo.png' | asset_url }}" />
-{% endif %}
-	
+{% case button %}
+	{% when 'link' %}
+		<a class="btn">
+			// Snippet content
+		</a>
+	{% default %}
+		<button class="btn">
+			// Snippet
+		</button>
+{% endcase %}
 ```
 
+#### Sections
+Sections are similar to Modules as they are elaborated chunk of codes, but their one property that set them appart is that they can have dynamic content created and manipulated within them through the theme settings. More informations [here](https://help.shopify.com/themes/development/theme-editor/sections), but as a short introduction:
+- A section can be **static** or **dynamic**:
+	- Dynamic sections can be added multiple times as independent instances and reordered on the homepage.
+	- Static sections can be added multiple times accross all templates but they would all be considered as one same instance with common settings.
+- Additional good read for content management flexibility with Sections [here](https://medium.com/@maxrolon/content-management-flexibility-4aabc56aabf2).
 
-###Recycle Product "add to cart" code###
+* * *
 
-- If you anticipate having multiple add to cart buttons on a page (e.g. a "Quick View" or "Quick Add" button on the collections, related products, recently viewed, or search templates), you'll want your add to cart elements to use classes, not IDs. 
-- You'll also probably want to dump this code in a snippet of some kind. 
-
-
-###Displaying Product Prices###
-
-- Wrap any instance of your shop's price in some kind of classed tag -- chances are that its style or value will change based on product variant options, sale prices, or other factors.
-- Don't forget all types of price displays (sale prices with "compare at" values, prices with ranges based on variants)
-
-###Site Search###
-
-- In some cases, you'll want to limit search results to products by adding a hidden field to your search form (thus hiding pages, blog posts, and other content from showing up):
-
+### 📍 3. Guidelines
+#### Global
+- For all JS asset files use the `script_tag` filter and for all Stylesheet asset files use the `stylesheet_tag` filter:
 ```
-<form method="get" action="/search">
-	<input type="hidden" name="type" value="product"/>
-	<input type="text" name="q" placeholder=" Type to search" class="search_query" /> 
-	<button type="submit">Submit</button>
-</form>
+{{ 'styles.css.liquid' | asset_url | stylesheet_tag }}
+{{ 'main.js' | asset_url | script_tag }}
 ```
-
-##Good To Know
-
-###Redirects###
-
-Shopify has an interface for 301 Redirects, in the **Navigation > URL Redirects** section of the admin dashboard (**URL Redirects** button is in the top right).
-
-### Snippets ###
-
-When including snippets such as 
-
+- For all image assets use the size parameters:
+> Set width only
 ```
-{{ include 'snippet-name' }}
+{{ product.image | img_url: '400x' }} or {{ 'my-image.jpg' | asset_img_url: '400x' }}
 ```
-
-...you can add one value in your include:
-
+> Set height only
 ```
-{{ include 'snippet-name' with 'test' }}
+{{ product.image | img_url: 'x400' }} or {{ 'my-image.jpg' | asset_img_url: '400x' }}
+```
+- Use the `split` filter to convert a string to an array:
+```
+{% assign colors = 'blue,orange,red,purple,green,yellow' | split: ',' %}
+
+{% for color in colors %}
+  {{ color }}
+{% endfor %}
+```
+- Convert a string to a number using a math filter like `minus`:
+```
+{% assign string_number = '5000' %}
+{% assign number = string_number | minus: 0 %}
 ```
 
-...In the file that contains the snippet, **snippet-name** is now the name of a variable, with the value **test**. 
+#### Structure a Snippet
+- Snippets that are used in multiple templates (Modules like `hero` or `slideshow` - Components like `button` or `image`) shouldn't have any hard coded content - only variables whose values are inherited from the snippet parameters. All snippets variables should have a default value.
+```
+{% include 'hero', title: my_title, content: my_content %}
 
-###Ajax API versus Shopify API###
+// Inside the 'hero' snippet
 
-*The Shopify API is different than the Ajax API!*
+{% assign title = title | default: false %}
+{% assign content = content | default: false %}
 
-The **[Ajax API](https://docs.shopify.com/support/your-website/themes/can-i-use-ajax-api)** returns JSON-encoded responses for **product** and **cart** information, allowing you to add items to your cart and fetch product info via javascript.  
-
-The **[Shopify API](https://docs.shopify.com/api)** provides a ton of endpoints for many components of your store, including Orders, Customers, Collections, Pages, Products, Metafields, and more. (See the API Reference column on the left of the [documentation page](https://docs.shopify.com/api)).
-
-You can quickly access this JSON information in your browser if you are logged into your store, by visiting your store URL (**using https**) with the endpoint location specified in the docs (e.g. http://www.parachutehome.com/admin/collections.json)
-
-To *create, edit, or update* this information, you'll need to build a separate app. To *GET* most of this information, you may also need a separate app, but...
-
-### ...I don't know how to categorize this ###
-
-If you're logged into your store and go to:
-
-+ store-name.myshopify.com/products.json
-+ store-name.myshopify.com/collections.json
-+ store-name.myshopify.com/pages.json
-
-...you'll get a response, which is *different* from the response you'll get if you go to **/admin/collections.json** (for example). I can't explain why, but regardless, you can submit GET requests to the URLs above -- handy for "related products" or similar features. 
-
-- - - - -
-
-## Internal demo stores, and stores for testing
-
-To access these stores, you can log in through [shopify.com/partners](http://www.shopify.com/partners) (creds in 1pass) or find out who might have a username and password. 
-
-### Stores for testing (these should be pw-protected) ###
-
-+ [barrel-dev-shop.myshopify.com](http://barrel-dev-shop.myshopify.com) (general sandbox)
-+ [sugar-in-tea.myshopify.com](http://sugar-in-tea.myshopify.com) (Seasons theme tester)
-+ [langosh-group3762.myshopify.com](http://langosh-group3762.myshopify.com) (Weekend theme tester)
-
-
-### Demo stores (do not test on the published themes in these stores, please!) ###
-
-+ **Seasons themes**
-  - [Spring Jewelry](http://barrel-jewelry.myshopify.com)
-  - [Fall Chocolates](http://barrel-chocolate.myshopify.com)
-  - [Winter Beauty](http://barrel-beauty.myshopify.com)
-+ **Weekend themes**
-  - [Outdoor Apparel](http://outdoor-apparel.myshopify.com/)
-  - [Sunday Coffee](http://barrel-coffee.myshopify.com/)
-  - [Bow Wow Ties](http://pet-accessories-3.myshopify.com/)
+<section class="hero">
+  {% if title %}
+    <h1 class="hero__title">{{ title }}</h1>
+  {% endif %}
   
-### Creating a Demo store
+  {% if content %}
+    <p class="hero__content">{{ content }}</p>
+  {% endif %}
+</section>
+```
+- All variables declared in a snippet (Module/Component) are not "isolated" within it, so always clear them:
+```
+{% assign title = 'value' | default: false %}
+{% assign index = 5 | default: 0 %}
 
-Login at [shopify.com/partners](http://www.shopify.com/partners), go to **Development Stores**, and click **Create a new development store** in the right-hand corner. 
+// Snippet Content
 
+{% assign title = false %}
+{% assign index = false %}
+```
+
+#### Inclusion
+Prioritize *components inside modules*, *modules inside sections* and *sections inside templates* (or *modules inside templates*). Try to prevent to have too much inline code when possible.
+> How a layout should be structured?
+```
+<head>
+  <title>{{ page_title }}</title>
+  {% include ‘meta-tags’ %}
+  {% include ‘stylesheets’ %}
+</head>
+
+<body>
+  <main class=”main”>
+     {% include ‘header’ %}
+
+     {{ content_for_layout }}
+
+     {% include ‘footer’ %}
+  </main>
+
+  {% include ‘libraries’ %}
+
+  {% if template contains ‘collection’ %}
+    {% include ‘optinmonster-collection’ %}
+  {% endif %}
+</body>
+```
+> How a template should be structured?
+```
+{% section 'hero' %}
+
+{% include ‘product-3-up’ %}
+
+{% include ‘carousel’ %}
+
+{% include ‘newsletter-block’ %}
+```
+> How a section should be structured?
+```
+{% assign section = section.settings %}
+
+// Multiple sections use the same hero layout, instead of adding inline code, the 'hero' module is called with the section settings passed to it as parameters.
+{% include ‘hero’, title:section[‘title’], content:section[‘content’] %}
+
+{% schema %}
+   // Section settings
+{% endschema %}
+```
+> How a module should be structured?
+```
+{% assign title = title | default: false %}
+{% assign content = content | default: false %}
+{% assign btn_text = btn_text | default: false %}
+
+<section class=”hero”>
+  {% if title %}
+    <h1 class=”hero__title”>{{ title }}</h1>
+  {% endif %}
+
+  {% if content %}
+  	<p class=”hero__content”>{{ content }}</p>
+  {% endif %}
+  
+  // Include a component.
+  {% if btn_text %}
+    {% include ‘button’, value: btn_text %}
+  {% endif %}
+</section>
+
+{% assign title = false %}
+{% assign content = false %}
+{% assign btn_text = false %}
+```
+
+#### SVG Icons
+- Create a `icon` liquid file in `/snippets/components`:
+- Structure the file as follow:
+```
+{% case icon %}
+  {% when 'cart' %}
+     // Add inline SVG here.
+  {% when 'search' %}
+     // Add inline SVG here.
+  {% when 'arrow' %}
+     // Add inline SVG here.
+{% endcase %}
+```
+- Include every icon as follow:
+```
+{% include 'icon' with 'cart %}
+```
+
+#### Tutorials
+- [Product Exploded View](https://kb.barrelny.com/shopify-development-product-exploded-view/)
+- [Split Product Content](https://kb.barrelny.com/shopify-development-split-content/)
+
+* * *
+
+### 📍 4. Workflow
+#### Environments
+- All environments are declared in the `config.yml` file located in the `/dist` directory of the project with those informations:
+```
+  theme_id: 
+  api_key: 
+  password: 
+  store:
+```
+Use the --env flag to specify which environment should be updated:
+```
+theme watch --env=ENVIRONMENT
+```
+> Development
+```
+- This environment targets any theme on the development store.
+- This environment is use for the development of the project.
+``` 
+> Staging
+```
+- This environment targets the unpublished theme on the production store that will be used for the next release.
+- This environment should always be up to date with the development environment.
+- JIRA Tickets Review and QA should be done on this environment before release.
+```
+> Production
+```
+- This environment targets the published theme on the production store.
+- Updates to this environment should only be made for hotfixes.
+```
+
+#### Shopify apps
+Those are basic Shopify apps that should be use in most of the themes:
+- [Metafields](http://www.accentuate.io/)
+- [Product Reviews](https://help.shopify.com/manual/apps/apps-by-shopify/product-reviews)
