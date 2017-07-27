@@ -45,7 +45,7 @@ A more thorough documentation can be find [here](https://help.shopify.com/themes
   {% endif %}
   ```
 
-  - **Filters** are methods thare applied to something that is being output like a string, a number, an object or a variable. They are therefore used inside `{{` `}}` and are seperated by a pipe `|`:
+  - **Filters** are methods that are applied to something that is being output like a string, a number, an object or a variable. They are therefore used inside `{{` `}}` and are seperated by a pipe `|`:
  
   ```
   How much does this {{ product.title | capitalize }} cost? It cost {{ product.title | money_with_currency }}
@@ -70,7 +70,7 @@ Those are the 7 required directories for a Shopify theme:
 - `/config` - *Contains all the global [theme settings](https://help.shopify.com/themes/development/theme-editor/settings-schema).*
 - `/layout` - *Contains the "master" template `theme.liquid`. All templates are rendered inside this one.*
 - `/locales` - *Contains the translation files for the content on the store.*
-- `/sections` - *Contains all* 
+- `/sections` - *Contains all sections* 
 - `/snippets` - *Contains bits of codes that can be called in other templates. (In `/src`, this directory should have 3 sub directories `components`, `modules` and `lib`)*
 - `/templates` - *Contains all the templates.*
 
