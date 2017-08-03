@@ -2,9 +2,9 @@
 
 # WordPress Best Practices
  
-## Useful Config During Development
+## Config For Development
 
-It’s always a good idea to keep the backend as fresh as possible. This might mean to remove certain thresholds or keep the database pruned while in development. A few things that make things easier to spot errors and improve your workflow.
+Within your `wp-config.php` in a block reserved for non-production developemnt environments, override some defaults to optimize for fastest use.
 
 Set the frequency of the trash being emptied to zero. This effectively removes the trash functionality, and all posts, when deleted, will be gone—no trace of them in the database.
 
@@ -12,15 +12,43 @@ Set the frequency of the trash being emptied to zero. This effectively removes t
 
 Do not suppress error logging and output. This often helps if you are using third party plugins as a dependency. You will then see errors pop up a lot more, which give good insight as to whether the plugin code is being maintained. WordPress constantly let’s you know when certain functions are deprecated.
 
-`define( 'WP_DEBUG', true ); // Zero days`
+`define( 'WP_DEBUG', true );`
 
-Disable or reduce post revisions—not autosaves; there’s another constant for that. This reduces the amount of database entries.
+In fact, report as many errors as you can unless third-party plugins make this impossible.
+
+`error_reporting(E_ALL); // Report all PHP errors`
+
+Disable or reduce post revisions. This reduces the amount of database entries.
 
 `define( 'WP_POST_REVISIONS', false ); // Or an integer fewer than 3`
 
-## Use Plugins Sparingly
+Increase this setting for longer delays in between auto-saves. The default is 60 seconds.
 
-If you’re apt to use a plugin as a dependency to your theme, at least have a look under the hood. We often require a small portion of code from a plugin that forcing it to be installed and relying on its functionality seems ridiculous. These plugins become liabilities over time, and in order to reduce our exposure to issues with those third-party plugins, it’s better to build the functionality right into the theme. Look at the code; if it’s not too overwhelming grab a snippet and see if that will work for you. This actually goes against WordPress theme standards, which would encourage the use of plugins as they are meant to be as modular as possible. We do not make themes for WordPress, however; we make WordPress themes, or WordPress-based, applications and websites for clients. As such, we should have our clients in mind for usability, ease, and portability. If you must use a plugin, be sure it works properly and include it as a known dependency for the project. You can even add warnings or notices to that effect.
+`define( 'AUTOSAVE_INTERVAL', 160 ); // Seconds`
+
+Much more can be done with error logging to effect good debug. See more on [Codex](https://codex.wordpress.org/Editing_wp-config.php).
+
+## Using Plugins
+
+### When to Use a Plugin
+When a large piece of functionality not already provided in WordPress is well-supported, widely received (*10K+ installs*), highly rated (*3+ star ratings*), and regularly maintained (*< 1–2 months since last update*), then a plugin may be used.
+Use the following as guidance:
+* Discuss the implications and technical use-cases with a lead or senior developer first.
+* Discuss any ongoing or fixed costs related to using or acquiring the plugin with a producer or account lead.
+
+### Who Pays for the Plugin
+The client always pays for plugins that require paid subscriptions or single-seat licenses for regular updates and support. For this reason, be sure to get approval from a producer or account lead before committing to the project plan. 
+
+We have developer licenses for ACF5 Pro and Gravity Forms. These licenses are for internal use only, but we do provide distributions of those plugins via our base theme.
+
+### When Not to Use a Plugin
+If the plugin is not already included with the platform, has not been included in a specification, or is not part of the base theme image, then you likely should not be adding a plugin. Plugins become liabilities over time, so if the functionality is small enough, it’s better to build it right into the theme. If you must use a plugin, be sure it works properly and include it as a known dependency for the project by adding warnings or notices to that effect as well as updating documentation in the theme. 
+
+*Absolutely DO NOT* attempt to access global functions or classes exposed by a plugin. 
+
+If you do this, then you must check for its existence and not rely on its return data. 
+
+You also have to ensure that the theme does not break when the plugin is deactivated.
 
 ## Be As Dry As Possible
 
