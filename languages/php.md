@@ -147,3 +147,9 @@ Is better written as:
   <?php endif; ?>
 </section>
 ```
+
+## File Stucture
+
+### Dependencies
+
+Instead of a vendor folder with downloaded scripts included in your repo, opt for well maintained open source libraries and install via [composer](https://getcomposer.org).
