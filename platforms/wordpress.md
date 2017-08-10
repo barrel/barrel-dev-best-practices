@@ -42,37 +42,25 @@ The client always pays for plugins that require paid subscriptions or single-sea
 We have developer licenses for ACF5 Pro and Gravity Forms. These licenses are for internal use only, but we do provide distributions of those plugins via our base theme.
 
 ### When Not to Use a Plugin
-If the plugin is not already included with the platform, has not been included in a specification, or is not part of the base theme image, then you likely should not be adding a plugin. Plugins become liabilities over time, so if the functionality is small enough, it’s better to build it right into the theme. If you must use a plugin, be sure it works properly and include it as a known dependency for the project by adding warnings or notices to that effect as well as updating documentation in the theme. 
+If the plugin is not already included with the platform, has not been included in a specification, or is not part of the barrel base theme image, then you likely should not be adding a plugin. Plugins become liabilities over time, so if the functionality is small enough, it’s better to build it right into the theme. If you must use a plugin, be sure it works properly and include it as a known dependency for the project by adding warnings or notices to that effect as well as updating documentation in the theme. 
 
 *Absolutely DO NOT* attempt to access global functions or classes exposed by a plugin. 
 
-If you do this, then you must check for its existence and not rely on its return data. 
+*If* you must do this, then you must check for its existence and not rely on its return data. 
 
 You also have to ensure that the theme does not break when the plugin is deactivated.
 
-## Be As Dry As Possible
+## Be As DRY As Possible
+### Don't Repeat Yourself
 
-If there is something you do more than twice, write a function for it and don’t just copy and paste the same block over and over again. If you’re making a lot of functions that do similar things, make a single function with options. If you’re making a lot of related functions and subsequent functionality, make a class with its own methods and properties. This is similar to how a normal plugin would function, as separate classes giving you a set of functionalities that extend WordPress. The class in this [gist](https://gist.github.com/wturnerharris/7408110) demonstrates one for members-only functionality.
+- If there is something you do more than twice, write a function for it. 
+- If you’re making a lot of functions that do similar things, make a single function with options. 
+- If you’re making a lot of related functions and subsequent functionality, make a class with its own methods and properties. 
+- Just remember to refactor when you can, and reduce your redundant code.
 
-### Init Custom Classes
+Separate classes can give you a set of functionalities that extend WordPress. The class in this [gist](https://gist.github.com/wturnerharris/7408110) demonstrates one for members-only functionality, encapsulating the feature much like a plugin should.
 
-Use the include_once directive to include other classes you may have created. You can simply include them directly in the functions.php file or include them in an init-run action hook. The differences between require and include (and their sisters require_once and include_once) are in error verbosity alone; that is, the require directives will produce fatal errors if the file is not found whereas the includes will only produce a warning. Since we’re using classes that we might only want instantiated once during runtime, we only include_once.
-
-    /**
-     * Initializes all custom theme classes and functions
-     *
-     * @return    void
-     */
-    function init_custom_classes() {
-    	// setup custom post types
-    	include_once dirname(__FILE__)."/inc/custom-post-types.php";
-    	// setup custom fields
-    	include_once dirname(__FILE__)."/inc/custom-fields.php";
-    }
-    
-    add_action( 'init', 'init_custom_classes', 1);
-
-### WordPress Action and Filter Hooks
+## WordPress Action and Filter Hooks
 
 There are so many [documented](http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters) as well as undocumented hooks and filters available in WordPress that enable you to override, filter, or change how things normally behave. If you can filter content before it is output, you can manipulate the way things appear.
 
@@ -90,16 +78,18 @@ In addition to the filter functions, there are a number of action functions that
 ### Some useful actions and filters include:
 
 #### AJAX
+The ajax hooks allow you to create ajax functions that return data for the frontend. You can now use the [WordPress REST API](https://developer.wordpress.org/rest-api/) to register your own endpoints for plugins and themes, so the ajax hooks should only be considered for small, one-off ajax requests.
 
     add_action('wp_ajax_get_feed', 'get_feed_ajax' );
     add_action('wp_ajax_nopriv_get_feed', 'get_feed_ajax' );
     
 #### SCRIPTS
+Use `wp_enqueue_scripts` action hook to register and enqueue scripts to the header or footer.
 
     add_action( 'wp_enqueue_scripts', 'theme_name_scripts' );
     add_action( 'admin_print_scripts-' . $page_hook_suffix, 'my_plugin_admin_scripts');
 
-WordPress highly encourages the use of their enqueues actions to process and include scripts and styles in your theme. Sometimes you would just prefer the scripts to be in the footer. The following is a hack by WordPress standards, but if you understand the routine, you may find it an acceptable workaround. This function is especially useful if another plugin is loading jquery and you want a specific version but served up from Google’s CDN. In this case, we’re enqueing jquery, comparing the version that wordpress loads by default but instead of using the local version, we’ll deregister the local and register the google CDN file of the same version. This ensures broad compatibility amongst all WordPress working parts.
+Use a CDN-backed jQuery script path or deregister JQuery altogether on new themes.
 
     function re_register_jquery(){
     	global $wp_version;
@@ -134,7 +124,7 @@ Similarly the following function moves all registered scripts to the footer, exc
 
 In both of the above functions, we use the little-known 5th argument, which sends the scripts to wp_foooter() in footer.php.
 
-## Templates and Partials
+## Templates, Modules, Components, and Partials
 
 Some call them modules, some call them fragments, and some call them partials. Whatever terminology you give it, keep them organized and use the template system. It’s a good idea to know the [hierarchy](http://codex.wordpress.org/images/1/18/Template_Hierarchy.png) of templates in order to use them as much as possible over creating any custom includes or requires for template data. Understand how [get_template_part](http://codex.wordpress.org/Function_Reference/get_template_part) works and use it to keep your loops, structure, and parts consistent. This would allow you to be very modular. 
 
