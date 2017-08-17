@@ -153,3 +153,30 @@ Is better written as:
 ### Dependencies
 
 Instead of a vendor folder with downloaded scripts included in your repo, opt for well maintained open source libraries and install via [composer](https://getcomposer.org).
+
+## Security
+
+### SQL
+
+Use [prepared statements](http://php.net/manual/en/pdo.prepared-statements.php) on SQL statements with user input data to protect your database from from SQL injection. 
+
+### Sanitization 
+
+Use [PHP input filtering](http://www.php.net/manual/en/function.filter-input.php) to sanitize any user input that will be printed onto the page to protect your site from from XSS. For example:
+
+```php
+<form method='get' action='index.php'>
+<input name="search" value="<?php echo $_GET['search'];?>" />
+<input type=submit name='getdata' value='Search' /></form>
+```
+
+Should be:
+
+```php
+<?php
+$search = filter_input(INPUT_POST | INPUT_GET, 'search', FILTER_SANITIZE_SPECIAL_CHARS);
+?>
+<form method='get' action='index.php'>
+<input name="search" value="<?php echo $search;?>” />
+<input type=submit name='getdata' value='Search' /></form>
+```
