@@ -207,19 +207,27 @@ WordPress follows a set of predefined rewrite rules to accomplish assembling the
 
 For another example using a class, see [this](https://gist.github.com/wturnerharris/7413478) gist.
 
-## Handling the Database
+## Security Considerations
 
-Avoid direct database queries. WordPress has built-in functionality for getting information in and out of the database. Using these functions wherever possible makes sure that you are benefiting from any optimizations or caching that is already implemented within those functions. See Database Queries for tips.
+### Using nonces
+TODO
+
+### Filesystem
+TODO
+
+### Handling the Database
+
+Avoid direct database queries. WordPress has built-in functionality for getting information in and out of the database. Just for PHP, always use prepared statements. Using these functions always possible makes sure that you are benefiting from any optimizations or caching that is already implemented within those functions. See Database Queries for tips.
 
 ### Using $wpdb
 
-You can’t always use built-in functionality to access the database, but you can most certainly use the abstraction layer built into WordPress to handle all CRUD functionality. If you’re using mysql_connect(), you’re just wrong!
+You can’t always use built-in functionality to access the database, but you can most certainly use the abstraction layer built into WordPress to handle all CRUD functionality. If you’re using mysql_connect(), then you're not using the correct library.
 
 ### APIs
 
-Please make use of WordPress APIs and classes—that’s what they’re there for. It might take some reading up, but it’s very easy to add a [settings](http://codex.wordpress.org/Settings_API) page the WordPress way using the Settings API. You can also use the existing class for [tables](https://gist.github.com/wturnerharris/7413971) by extending it in order to create a visually seamless backend.
+Please make use of WordPress APIs and classes. It might take some reading up, but it’s very easy to add a [settings](http://codex.wordpress.org/Settings_API) page the WordPress way using the Settings API. You can also use the existing class for [tables](https://gist.github.com/wturnerharris/7413971) by extending it in order to create a visually seamless backend.
 
-## Keep it Clean. Stay Classy San Diego
+## Do Not Forget
 
 * Are you adding a screenshot.png to your theme?
 * Did you include a readme.md?
