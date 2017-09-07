@@ -1,123 +1,81 @@
 ### 📚 Table of Contents
-- Read AirBnb Javascript Best Practices
+- Base Rules
 - Using jQuery
-- Structure
-    - Folders and what they mean
-    - Needed files
-    - Utils
-- Linting
-- Dependency management
-- Modular code
+- Bundle Structure
+- Module File Structure
+- Compiling
+
+```
+// Possible ads:
 - DOM References
-- Mutating DOM Styles
-- Templating
-- Avoid heavy nesting
-- Keep files short
 - Beware of race conditions
 - Don't use global scope
-- Your entrypoint
+```
+
+***
+#### 📍 Base Rules
+1. Keep module files succinct and short
+2. Keep nesting to a minimum
+3. Leverage native functions over vendor libraries
+4. Understand the browser compatibility of your code
+5. Always lint your code using standardJS rules
+
+***
+#### 📍 ES6 and beyond over jQuery
+jQuery provides a set of utilities to fill in the blanks of a once minimal native language. Modern day javascript and transpilers such as Babel make it much easier do the tasks jQuery helps with, such as traverse the DOM and make AJAX calls. Please utilize new Javascript standands and transpilers instead of adding jQuery to a project.
+
+***
+#### 📍 Bundle Structure
 
 
-## Structure
 ```bash
 # in src/js/ directory
 lib/
-vendor/ (optional)
+modules/
 main.js
   
 # in modules/
-hero/
-  |– hero.js
-  |- hero.handlebars
-slideshow/
-  |- slideshow.js
-  |– slideshow.handlebars
+hero.js
+PLP/
+  |– app.js
+  |- reducers.js
+  |- actions.js
+  |- component-1.js
+  |- component-2.js
 ```
 
-#### Root File (`main.js`) 
-The main javascript file serves as the entry point for the Browserify bundle. This file should pull in global dependencies for the site and initialize them on page load if necessary.
+##### Root File (`main.js`) 
+The main javascript file serves as the entry point to the javascript bundle. This file should read like a contents page to the js bundle. It should be extremely simple, focusing primarily on including and instantiating modules.
 
-#### Lib Directory
-The lib folder contains re-usable functions that can be used in your individual modules.
+##### Lib Directory
+The lib folder contains module agnostic code that can be utilized by more than one module. For example, a ```utils.js``` file that exports a series of helper functions used across the site or a lazy-loading script that can be called to lazy load images across the site.
 
-#### Modules Directory
-The modules folder contains templates and associated JavaScript functions which are initialized on load using the `data-module-init` attribute.
+##### Modules Directory
+The modules folder contains the javascript logic of modules used across the site. Typically, a module file will have a corresponding markup file (e.g. a liquid, PHP or HTML file), and a corresponding stylesheet file (e.g. a CSS or SASS file).
 
-## Workflow 
-1. Import dependencies via NPM
-  - maintain a clean `package.json`
-  - Install front-end plugins to `dependencies` using `npm install --save`
-  - Install gulp plugins and other build tools to `devDependencies` using `npm install --save-dev`
-2. Build using Gulp
-  - see Barrel Base for boilerplate
-3. Use Browserify to bundle modules
-  - if a library is not on NPM, use Browserify Shim or similar to transform into a common-js module
-  - declare all dependencies at the top of each file, via `require()`
-  - module files should export a function using `module.exports`
-4. Use uglify to compress files production files
-  - skipping compression during dev using a separate build task is ideal
-5. Modules that require javascript should have their own JS partial, which are instantiated via our `data-module-init` pattern inside `main.js` on page load.
-  - see Barrel Base for examples
-
-## Styleguide
-- Use vanilla javscript where possible
-  - if using jQuery, include as a `browser` dependency in your `package.json` and include it via `var $ = require('jquery')` in your `main.js` (et al) file.
-- Use of ES6 is OK, but _document_ the build steps you are using 
-  - use Babel to transpile
-  - do not use anything that is not on the standards track, i.e. anything beyond the ES2015 (ES6) spec, like ES2016, ES2017
-- Use semi-colons for consistency
-  ```javascript
-  function log(){
-    // like this
-    console.log(str);
-
-    // not like this
-    console.log(str)
-  }
-  ```
-- Trailing commas + list un-assigned variables first
-  ```javascript
-  var unassigned, 
-      assigned = 'This variable is assigned';
-  ```
-- When writing ternary, use parentheses to mark the left-hand side argument
-  ```javascript
-  var duration = (speed === 'fast') ? 200 : 800;
-  ```
-- Use named functions always, it helps with debugging
-  ```javascript
-  // this is an anonymous function
-  var log = function(msg){
-    console.log(msg);
-  }
-
-  // this is a named function
-  function log(msg){
-    console.log(msg);
-  }
-  ```
-
-## Feature Detection
-Use a _custom_ build of Modernizr when necessary. Ensure the generated URL is not stripped from the source code, so that the package can be amended in the future if needed.
-
-## Things to Keep In Mind
-
-#### You don't need to declare everything within `$.ready()`.
-Only declare what initiates your application within the `.ready()`. Keep everything else scoped and modularlized as needed.
+***
+#### 📍 File Structure
+As a guide only, regular common.js modules should be written in the following structure:
 
 ```javascript
-function App(){
-  ...
+// Include any vendor dependencies
+import select from 'dom-select'
+
+// Include any local dependencies (.e.g. utils.js)
+import productCell from 'product-cell.js'
+
+// Declare any DOM references
+const slideshow = '.js-slideshow'
+
+// Write module code
+const init = () => {
+    const el = select(slideshow)
 }
 
-// Or $(document).ready();
-jQuery(function($){
-  new App();
-});
+// Declare the module exports
+export default init
 ```
 
-#### Avoid unecessary `if ... else` statements.
-While they are very explicit, they add unecessary visual clutter in large files. Use ternary for simple value checking. Where multiple levels are needed, `if ... else` is still preferable.
+## Compiling
+Utilize Webpack to build, transpile and minify your bundle. Typically, there are two Webpack config files, ```webpack.config.js``` (dev) and ```webpack.production.config.js``` (production). The dev file is used when writing code while the production file is used to prepare the js bundle for production. The dev file will watch files, transpile files and serve files to the dev server. The production file will optimize files and write them to the file system.
 
-#### When to use `switch()` statements.
-TODO
