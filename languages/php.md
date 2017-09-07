@@ -14,51 +14,55 @@ _Because each PHP framework approaches code quality in a different way, it is im
 
 ## Style
 
-### Control structures
+### Classes and Methods
 
-Conditional control structures `if`, `while`, `for`, `foreach`, and `switch` should have white space following the structure and the condition for readability.
+Method names should be descriptive of their actions, using the platform or framework's existing conventions.
 
-Wrong:
+[WordPress](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/):
 ```php
-  if($foo == $bar){
-    foreach($foo as $f){
-      return $f;
+class Some_Class {
+    public sample_method {
+        return true;
     }
-  }
-```
-
-Right:
-```php
-  if ($foo == $bar) {
-    foreach ($foo as $f) {
-      return $f;
-    }
-  }
-```
-
-### Methods
-
-Method names should be descriptive of their actions and all lowercase, with underscores separating words. Method parameters should be comma separated with white space to improve readability.
-
-Wrong:
-```php
-function echoRoll($str,$int,$bool)
+}
+function sample_func( $str )
 {
-  echo 'Fox, do a barrel roll!';
+    return strtoupper( $str );
 }
 ```
 
-Right:
+[Laravel](https://laravel.com/docs/5.4/contributions#coding-style) follows [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md):
 ```php
-function tell_fox_to_roll($str, $int, $bool)
+<?php
+namespace Vendor\Package;
+
+use FooInterface;
+use BarClass as Bar;
+use OtherVendor\OtherPackage\BazClass;
+
+class Foo extends Bar implements FooInterface
 {
-  echo 'Fox, do a barrel roll!';
+    public function sampleMethod($a, $b = null)
+    {
+        if ($a === $b) {
+            bar();
+        } elseif ($a > $b) {
+            $foo->bar($arg1);
+        } else {
+            BazClass::bar($arg2, $arg3);
+        }
+    }
+
+    final public static function bar()
+    {
+        // method body
+    }
 }
 ```
 
 ### Private and protected class variables
 
-It is helpful to prefix an underscore `_` to private or protected varaible names so that non-encapsulated variables can be easily identified. For instance:
+It is helpful to prefix an underscore `_` to private or protected variable names so that non-encapsulated variables can be easily identified. For instance:
 
 ```php
 Class Foo
@@ -102,9 +106,9 @@ $foobar->pub = FALSE; // Changes $_pub to FALSE
 
 [PHP tags](http://www.php.net/manual/en/language.basic-syntax.phptags.php)
 
-Typically, it is best practice to use the full `<?php` open tag verses the short open tag `<?`. This is because the abbreviated version requires `short_open_tag = On` in php.ini, and access to php.ini may not be available in the production environment.
+Do not use short open php tags. The best practice is to use the full `<?php` open tag verses the short open tag `<?`. This is because the abbreviated version requires `short_open_tag = On` in php.ini, and access to php.ini may not be available in the production environment.
 
-Use of the short echo tag, `<?=`, reqires activation only in PHP instances < 5.4, and can be safely used on any server using PHP 5.4 or where `short_open_tag` is set to true.
+Use of the short echo tag, `<?=`, is permissable but can only be safely used on a server with PHP 5.4 or higher. If the feature is ever removed from php or a php downgrade is required, a global find a replace can be performed.
 
 ### Accidental whitespace
 
