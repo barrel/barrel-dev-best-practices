@@ -1,30 +1,100 @@
 ### 📚 Table of Contents
 - Base Rules
-- Using jQuery
 - Bundle Structure
 - Module File Structure
 - Compiling
+- Common jQuery Shims
 
-```
-// Possible ads:
-- DOM References
-- Beware of race conditions
-- Don't use global scope
-```
+> #### ✅ ES6 and beyond over jQuery
+> jQuery provides a set of utilities to fill in the blanks of a once minimal native language. Modern day javascript and transpilers such as Babel make it much easier do the tasks jQuery helps with, such as traverse the DOM and make AJAX calls. Please utilize new Javascript standands and transpilers instead of adding jQuery to a project. See [section below](#juery-shims) for examples of non-jquery replacements
 
 ***
 #### 📍 Base Rules
-1. Keep module files succinct and short
-2. Keep nesting to a minimum
-3. Leverage native functions over vendor libraries
-4. Understand the browser compatibility of your code
-5. Always lint your code using standardJS rules
+
+#### Keep module files succinct
+Consider your code from the perspective of another engineer coming in with no prior knowledge of the project. Short, succinct code is much easier to review than long verbose code. A module that gets the same job done in less lines of code is a end goal to work towards. See below for a number of techniques that can help you tighten up your code.
+
+**Abstract common tasks to utility functions**
+
+```javascript
+// Bad
+const parent = [].slice.call(document.querySelectorAll('.js-parent'))
+const child = [].slice.call(parent.querySelectorAll('.js-child'))
+// ...
+
+// Good
+// This utility function can be used across multiple modules
+const select = (selector, parent = document) => (
+    [].slice.call(
+        parent.querySelectorAll(selector)
+    )
+)
+
+const parent = select('.js-parent')
+const child = select('.js-child', parent)
+// ...
+```
+
+**Consider using tenery operators** (When it doesn't detract from code readability)
+
+```javascript
+// Bad 
+scroll(y => {
+    if (y >= 10) {
+        document.body.classList.add('is-fixed')
+    } else {
+        document.body.classList.remove('is-fixed')
+    }
+})
+
+// Good
+scroll(y => {
+    document.body.classList[y >= 10 ? 'add' : 'remove']('is-fixed')
+})
+```
+
+**Consider using arrow functions instead of functional expressions**
+
+```javascript
+// Bad
+const expression = function(foo, bar) {
+    return foo * bar
+}
+
+// Good
+const expression = (foo, bar) => foo * bar
+```
+
+**Consider using default parameter syntax**
+
+```javascript
+// Bad
+const expression = opts => {
+    if (opts === void 0) {
+    opts = {}
+  }
+}
+
+// Bad
+const expression = opts => {
+    opts = opts || {}
+}
+
+// Good
+const expression = (opts = {}) => {
+    // ...
+}
+```
+
+
+
+#### Keep nesting to a minimum
+#### Leverage native functions over vendor libraries
+#### Understand the browser compatibility of your code
+#### Always lint your code using standardJS rules
 
 ***
-#### 📍 ES6 and beyond over jQuery
-jQuery provides a set of utilities to fill in the blanks of a once minimal native language. Modern day javascript and transpilers such as Babel make it much easier do the tasks jQuery helps with, such as traverse the DOM and make AJAX calls. Please utilize new Javascript standands and transpilers instead of adding jQuery to a project.
 
-***
 #### 📍 Bundle Structure
 
 
@@ -36,12 +106,7 @@ main.js
   
 # in modules/
 hero.js
-PLP/
-  |– app.js
-  |- reducers.js
-  |- actions.js
-  |- component-1.js
-  |- component-2.js
+slideshow.js
 ```
 
 ##### Root File (`main.js`) 
@@ -76,6 +141,11 @@ const init = () => {
 export default init
 ```
 
-## Compiling
+***
+#### 📍 Compiling
 Utilize Webpack to build, transpile and minify your bundle. Typically, there are two Webpack config files, ```webpack.config.js``` (dev) and ```webpack.production.config.js``` (production). The dev file is used when writing code while the production file is used to prepare the js bundle for production. The dev file will watch files, transpile files and serve files to the dev server. The production file will optimize files and write them to the file system.
 
+***
+#### 📍 jQuery Shims
+1. Ajax: Use [ES6 Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) or [nanoajax](https://github.com/yanatan16/nanoajax)
+2. Dom References: [documentSelectorAll](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll)
