@@ -60,46 +60,6 @@ class Foo extends Bar implements FooInterface
 }
 ```
 
-### Private and protected class variables
-
-It is helpful to prefix an underscore `_` to private or protected variable names so that non-encapsulated variables can be easily identified. For instance:
-
-```php
-Class Foo
-{
-  protected $_foo;    // Available to Foo and extensions of Foo
-  private $_bar;      // Only available to Foo
-  public $pub;        // Available to everyone
-  
-  // Construct
-  function __construct($str, $int, $bool)
-  {
-    $this->_foo = $str;
-    $this->_bar = $int;
-    $this->pub = $bool;
-  }
-  
-  // Encapsulates $_bar
-  protected function return_bar(){
-    return $this->_bar;
-  }
-}
-
-Class Bar extends Foo
-{
-  // Construct
-  function __construct($str, $int, $bool){
-    parent::__construct($str, $int, $bool); // Constructs Foo
-  
-    $bar = $this->return_bar(); // Retrieves $_bar
-    $this->_foo = $bar; // Changes $_foo to $bar
-  }
-}
-
-$foobar = new Bar('hello world', 5, TRUE);
-$foobar->pub = FALSE; // Changes $_pub to FALSE
-```
-
 ## Syntax
 
 ### Short open tags
@@ -184,3 +144,9 @@ $search = filter_input(INPUT_POST | INPUT_GET, 'search', FILTER_SANITIZE_SPECIAL
 <input name="search" value="<?php echo $search;?>” />
 <input type=submit name='getdata' value='Search' /></form>
 ```
+
+## Performance
+
+### Monitoring
+
+Use [New Relic](https://newrelic.com) to monitor performance during development and after releases to look for bottlenecks and bugs.
