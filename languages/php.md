@@ -60,6 +60,12 @@ class Foo extends Bar implements FooInterface
 }
 ```
 
+#### Variables
+
+##### Globals
+
+Avoid using global variables, instead use [dependency injection](https://stackoverflow.com/questions/130794/what-is-dependency-injection) to pass the required data to the dependent method.
+
 ## Syntax
 
 ### Short open tags
@@ -144,6 +150,10 @@ $search = filter_input(INPUT_POST | INPUT_GET, 'search', FILTER_SANITIZE_SPECIAL
 <input name="search" value="<?php echo $search;?>” />
 <input type=submit name='getdata' value='Search' /></form>
 ```
+
+### Sensitive Data
+
+Avoid including sensitive data directly in code (API keys, database credentails, etc.) and instead use [environment varibles](https://scotch.io/tutorials/how-to-use-environment-variables) to store that information in git-ignored platform-specific config files and configuration areas. Check the host or platform documentation for how to configure environment variables for that environment.
 
 ## Performance
 
