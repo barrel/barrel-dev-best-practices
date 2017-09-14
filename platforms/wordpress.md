@@ -1,4 +1,10 @@
 ### Barrel Development Best Practices
+- [Config for Development](#config-for-development)
+- [Using Plugins](#using-plugins)
+- [DRY](#dont-repeat-yourself)
+- [Action and Filter Hooks](#wordpress-action-and-filter-hooks)
+- [Templates, Modules, Components, and Partials](#templates-modules-components-partials)
+
 
 # WordPress Best Practices
  
@@ -50,6 +56,8 @@ If the plugin is not already included with the platform, has not been included i
 
 You also have to ensure that the theme does not break when the plugin is deactivated.
 
+*Again, do not directly use plugin functions or classes unless your functionality is decoupled from the theme and checks for the presence of the plugin and its activation status before attempting to use them.*
+
 ## Be As DRY As Possible
 ### Don't Repeat Yourself
 
@@ -62,18 +70,26 @@ Separate classes can give you a set of functionalities that extend WordPress. Th
 
 ## WordPress Action and Filter Hooks
 
-There are so many [documented](http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters) as well as undocumented hooks and filters available in WordPress that enable you to override, filter, or change how things normally behave. If you can filter content before it is output, you can manipulate the way things appear.
+There are so many [documented](https://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters) as well as undocumented hooks and filters available in WordPress.
 
-    if (!has_filter('profit', 'the_profit')) {
-    	add_filter('profit', 'the_profiteer');
-    	apply_filters('profit', $the_content);
+### Register Hooks Cleanly and Consistently
+Most filters are traditionally thrown into the functions.php file. This can quickly become messy and hard to find. Break those filters into like groups of files based on the filter or functionality.
+
+If you have a class that handles specific functionality for WordPress, then use a class-based pattern:
+```php
+class WP_Base_Class {
+    
+    function __construct () {
+    	add_action( 'init', array( &$this, 'initialize' ), 10, 2 );
     }
     
-    function the_profiteer ($content) {
-    	return trim($content);
+    public function initialize()
+    {
+        // this gets called on the init hook
     }
-
-In addition to the filter functions, there are a number of action functions that allow you to check if an action has run, 
+}
+new WP_Base_Class();
+```
 
 ### Some useful actions and filters include:
 
@@ -86,64 +102,36 @@ The ajax hooks allow you to create ajax functions that return data for the front
 #### SCRIPTS
 Use `wp_enqueue_scripts` action hook to register and enqueue scripts to the header or footer.
 
-    add_action( 'wp_enqueue_scripts', 'theme_name_scripts' );
-    add_action( 'admin_print_scripts-' . $page_hook_suffix, 'my_plugin_admin_scripts');
-
-Use a CDN-backed jQuery script path or deregister JQuery altogether on new themes.
-
-    function re_register_jquery(){
-    	global $wp_version;
-    	if ( is_admin() || in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php')) ) return;
-    	wp_enqueue_script( 'jquery' );
-    
-    	// Check to see if we're on 3.6 or newer (changed the jQuery handle)
-    	$jquery_handle = ( version_compare( $wp_version, '3.6', '>=' ) ? 'jquery-core' : 'jquery');
-    	$wp_jquery_ver = $GLOBALS['wp_scripts']->registered[$jquery_handle]->ver;
-    	$jquery_google_url = '//ajax.googleapis.com/ajax/libs/jquery/'.$wp_jquery_ver.'/jquery.min.js';
-    	wp_deregister_script( $jquery_handle );
-    	wp_register_script( $jquery_handle, $jquery_google_url, '', null, true );
-    }
-    add_action('init', 're_register_jquery');
-
-Similarly the following function moves all registered scripts to the footer, except jquery:
-
-    function move_scripts_to_footer() {
-        global $wp_scripts;
-    	if ( is_admin() || !is_object($wp_scripts) ) return;
-        foreach( $wp_scripts->queue as $handle ) :
-    		$src = $wp_scripts->registered[$handle]->src;
-    		$deps = $wp_scripts->registered[$handle]->deps;
-    		if ( "jquery" != $handle ) {
-    			wp_deregister_script($handle);
-    			wp_enqueue_script($handle, $src, (count($deps)>1?$deps:''),'',true);
-    		}
-        endforeach;
-    }
-    add_action( 'wp_print_scripts', 'move_scripts_to_footer', 1);
-    add_action( 'wp_footer', 'wp_print_footer_scripts', 1); // needed for above action to work
-
-In both of the above functions, we use the little-known 5th argument, which sends the scripts to wp_foooter() in footer.php.
+    add_action( 'wp_enqueue_scripts', 'theme_scripts_enqueue' );
+    add_action( 'admin_print_scripts-' . $page_hook_suffix, 'admin_scripts_enqueue');
 
 ## Templates, Modules, Components, and Partials
 
-Some call them modules, some call them fragments, and some call them partials. Whatever terminology you give it, keep them organized and use the template system. It’s a good idea to know the [hierarchy](http://codex.wordpress.org/images/1/18/Template_Hierarchy.png) of templates in order to use them as much as possible over creating any custom includes or requires for template data. Understand how [get_template_part](http://codex.wordpress.org/Function_Reference/get_template_part) works and use it to keep your loops, structure, and parts consistent. This would allow you to be very modular. 
+Some call them modules, some call them fragments, and some call them partials. Whatever terminology you give it, keep them organized and use the template system. It’s a good idea to know the [hierarchy](http://codex.wordpress.org/images/1/18/Template_Hierarchy.png) of templates in order to use them as much as possible over creating any custom includes or requires for template data. Avoid using [get_template_part](http://codex.wordpress.org/Function_Reference/get_template_part) and instead use an `include`, which will allow very modular code with little performance impact. 
 
-The general composition of your templates should follow the template-loop-template routine. 
+### Custom Post Types and Taxonomies
 
-    <ul>
-    <?php while (have_posts() ): ?>
-    	<li><?php the_title(); ?></li>
-    <?php endwhile; ?>
-    </ul>
+In most cases, our practice is to define a page and/or page template for a custom post type so that we can define data for the template on a page-level basis. Only use archive templates when no data needs to be defined beyond dynamic content.
 
-### Custom Post Types
+Example Specification 1:
+- Define a template at templates/page-news.php as /* Template: News */
+- Create a new page called "News" and assign it the News template.
+- Define a custom "news" post type without an archive (`has_archive = false`)
+- Allow "news" posts to appear as sub pages of the News page.
 
-With regards to the template hierarchy, it’s best to use known templates for post type landing pages when possible. If you have a ‘news’ post type, it would make sense that you have a landing page to show all news articles. If your other post types fit with the same style of output as your news, you can get away with using only the archive.php template file. You can use variations within the loop portion of the archive template should any post type deviate from the norm. Finally you could use the archive-$post_type.php template. These practices ensure there is a template for these data types.
+Example Specification 2:
+- Define a custom field group for the News landing page in theme options.
+- Define a custom "news" post type with an archive.
+- Allow "news" posts to appear as sub pages of the News archive template.
 
 ### Images
 
-Always use Featured Image sizes sized to pull the appropriate size image, never have the template display the full size image. Add custom image sizes to your theme functions. 
+Always add image sizes for the variations in which an image will appear on the frontend. 
+Never display the full size image for thumbnails and smaller crops. 
+Add custom image sizes to your theme functions. 
+Use Featured Images when possible, especially when used in multiple places, falling back to ACF Image upload fields for specific use-cases.
 
+```php
     /**
      *
      * Add image sizes for thumbnails
@@ -155,10 +143,11 @@ Always use Featured Image sizes sized to pull the appropriate size image, never 
         add_image_size( 'homepage-thumb', 220, 180, true ); // (cropped)
     }
     add_action( 'after_setup_theme', 'add_image_sizes' );
-    
-### Rewrites Beware
+```
 
-WordPress follows a set of predefined rewrite rules to accomplish assembling the templates. You can override these rules, but do so with caution. Generally adding rewrite rules should be a last resort when normal routes conflict with custom ones. An example might occur when you want your news blog to appear under a base of news/ but you don’t want the rest of the site to appear under the news/ base. You can instead add a rewrite rule to override the url for your posts. Additionally you might have a normal page at news/ which you’re using for general page content. This is a very tricky situation and can only be resolved by modifying rewrite rules. You an resort to creating a different path so that they do not conflict, but you might be left with a bunch of funky routes with similar naming conventions which could be confusing to the user.
+### Rewrites
+
+WordPress follows a set of predefined rewrite rules to accomplish assembling the templates. You can override these rules, but do so with caution. Generally adding rewrite rules should be a last resort when normal routes conflict with custom ones. For example: When you want your news blog to appear under a base of news/ but you don’t want the rest of the site to appear under the news/ base. You can instead add a rewrite rule to override the url for your posts. Additionally you might have a normal page at news/ which you’re using for general page content. This is a very tricky situation and can only be resolved by modifying rewrite rules. You an resort to creating a different path so that they do not conflict, but you might be left with a bunch of funky routes with similar naming conventions which could be confusing to the user.
 
     /**
      *
@@ -207,6 +196,12 @@ WordPress follows a set of predefined rewrite rules to accomplish assembling the
 
 For another example using a class, see [this](https://gist.github.com/wturnerharris/7413478) gist.
 
+## Performance
+
+Use new relic regularly to check performance bottlenecks. Activities should include reviewing the slowest processes as well as any key transaction traces. You can also set key transactions manually or via api functions in code. Remember to check for their existence before using.
+
+If New Relic is not available, use XDebug and/or a PHP Profiler. 
+    
 ## Security Considerations
 
 ### Using nonces
