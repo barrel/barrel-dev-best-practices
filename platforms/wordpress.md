@@ -4,6 +4,10 @@
 - [DRY](#dont-repeat-yourself)
 - [Action and Filter Hooks](#wordpress-action-and-filter-hooks)
 - [Templates, Modules, Components, and Partials](#templates-modules-components-and-partials)
+- [Images](#images)
+- [Rewrites](#rewrites)
+- [Performance & Security](#performance-security)
+- [APIs](#apis)
 
 
 # WordPress Best Practices
@@ -96,14 +100,18 @@ new WP_Base_Class();
 #### AJAX
 The ajax hooks allow you to create ajax functions that return data for the frontend. You can now use the [WordPress REST API](https://developer.wordpress.org/rest-api/) to register your own endpoints for plugins and themes, so the ajax hooks should only be considered for small, one-off ajax requests.
 
+```php
     add_action('wp_ajax_get_feed', 'get_feed_ajax' );
     add_action('wp_ajax_nopriv_get_feed', 'get_feed_ajax' );
-    
+```
+
 #### SCRIPTS
 Use `wp_enqueue_scripts` action hook to register and enqueue scripts to the header or footer.
 
+```php
     add_action( 'wp_enqueue_scripts', 'theme_scripts_enqueue' );
     add_action( 'admin_print_scripts-' . $page_hook_suffix, 'admin_scripts_enqueue');
+```
 
 ## Templates, Modules, Components, and Partials
 
@@ -126,7 +134,7 @@ In most cases, our practice is to define a page and/or page template for a custo
 - Define a custom "news" post type with an archive.
 - Allow "news" posts to appear as sub pages of the News archive template.
 
-### Images
+## Images
 
 Always add image sizes for the variations in which an image will appear on the frontend. Add these custom image sizes to your theme functions.
 
@@ -148,7 +156,7 @@ Use Featured Images when possible, especially when used in multiple places, fall
     add_action( 'after_setup_theme', 'add_image_sizes' );
 ```
 
-### Rewrites
+## Rewrites
 
 WordPress follows a set of predefined rewrite rules to accomplish assembling the templates. You can override these rules, but do so with caution. Generally adding rewrite rules should be a last resort when normal routes conflict with custom ones. For example: When you want your news blog to appear under a base of news/ but you don’t want the rest of the site to appear under the news/ base. You can instead add a rewrite rule to override the url for your posts. Additionally you might have a normal page at news/ which you’re using for general page content. This is a very tricky situation and can only be resolved by modifying rewrite rules. You an resort to creating a different path so that they do not conflict, but you might be left with a bunch of funky routes with similar naming conventions which could be confusing to the user.
 
@@ -201,13 +209,13 @@ WordPress follows a set of predefined rewrite rules to accomplish assembling the
 
 For another example using a class, see [this](https://gist.github.com/wturnerharris/7413478) gist.
 
-## Performance
+## Performance & Security Considerations
 
-Use new relic regularly to check performance bottlenecks. Activities should include reviewing the slowest processes as well as any key transaction traces. You can also set key transactions manually or via api functions in code. Remember to check for their existence before using.
+### Profiling and Monitoring
 
-If New Relic is not available, use XDebug and/or a PHP Profiler. 
-    
-## Security Considerations
+Use New Relic regularly (included on [Pantheon sites](https://pantheon.io/docs/new-relic/) for free) to check performance bottlenecks. Activities should include reviewing the slowest processes as well as any key transaction traces. You can also set key transactions manually or via api functions in code. Remember to check for their existence before using.
+
+If New Relic is not available, use [XDebug](https://xdebug.org/) and/or an IDE with support for a PHP Profiler like [PHPStorm](https://www.jetbrains.com/phpstorm/). 
 
 ### Using nonces
 
