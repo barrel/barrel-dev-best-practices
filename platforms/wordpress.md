@@ -3,7 +3,7 @@
 - [Using Plugins](#using-plugins)
 - [DRY](#dont-repeat-yourself)
 - [Action and Filter Hooks](#wordpress-action-and-filter-hooks)
-- [Templates, Modules, Components, and Partials](#templates-modules-components-partials)
+- [Templates, Modules, Components, and Partials](#templates-modules-components-and-partials)
 
 
 # WordPress Best Practices
@@ -107,28 +107,31 @@ Use `wp_enqueue_scripts` action hook to register and enqueue scripts to the head
 
 ## Templates, Modules, Components, and Partials
 
-Some call them modules, some call them fragments, and some call them partials. Whatever terminology you give it, keep them organized and use the template system. It’s a good idea to know the [hierarchy](http://codex.wordpress.org/images/1/18/Template_Hierarchy.png) of templates in order to use them as much as possible over creating any custom includes or requires for template data. Avoid using [get_template_part](http://codex.wordpress.org/Function_Reference/get_template_part) and instead use an `include`, which will allow very modular code with little performance impact. 
+Some call them modules, some call them fragments, and some call them partials. Whatever terminology you give it, keep them organized and use the template system. It’s a good idea to know the [hierarchy](http://codex.wordpress.org/images/1/18/Template_Hierarchy.png) of templates in order to use them as much as possible over creating any custom includes or requires for template data. 
+
+**Avoid using [get_template_part](http://codex.wordpress.org/Function_Reference/get_template_part)** and instead use an `include`, which will allow very modular code with little performance impact. 
 
 ### Custom Post Types and Taxonomies
 
 In most cases, our practice is to define a page and/or page template for a custom post type so that we can define data for the template on a page-level basis. Only use archive templates when no data needs to be defined beyond dynamic content.
 
-Example Specification 1:
+**Example Specification 1:**
 - Define a template at templates/page-news.php as /* Template: News */
 - Create a new page called "News" and assign it the News template.
 - Define a custom "news" post type without an archive (`has_archive = false`)
 - Allow "news" posts to appear as sub pages of the News page.
 
-Example Specification 2:
+**Example Specification 2:**
 - Define a custom field group for the News landing page in theme options.
 - Define a custom "news" post type with an archive.
 - Allow "news" posts to appear as sub pages of the News archive template.
 
 ### Images
 
-Always add image sizes for the variations in which an image will appear on the frontend. 
-Never display the full size image for thumbnails and smaller crops. 
-Add custom image sizes to your theme functions. 
+Always add image sizes for the variations in which an image will appear on the frontend. Add these custom image sizes to your theme functions.
+
+*Never display the full size image* for any image displayed on the frontend. 
+
 Use Featured Images when possible, especially when used in multiple places, falling back to ACF Image upload fields for specific use-cases.
 
 ```php
@@ -149,6 +152,7 @@ Use Featured Images when possible, especially when used in multiple places, fall
 
 WordPress follows a set of predefined rewrite rules to accomplish assembling the templates. You can override these rules, but do so with caution. Generally adding rewrite rules should be a last resort when normal routes conflict with custom ones. For example: When you want your news blog to appear under a base of news/ but you don’t want the rest of the site to appear under the news/ base. You can instead add a rewrite rule to override the url for your posts. Additionally you might have a normal page at news/ which you’re using for general page content. This is a very tricky situation and can only be resolved by modifying rewrite rules. You an resort to creating a different path so that they do not conflict, but you might be left with a bunch of funky routes with similar naming conventions which could be confusing to the user.
 
+```php
     /**
      *
      * Add rewrite rules for custom routes with no post types
@@ -193,6 +197,7 @@ WordPress follows a set of predefined rewrite rules to accomplish assembling the
     	}
     }
     add_action( 'template_redirect', 'switch_template' ); 
+```
 
 For another example using a class, see [this](https://gist.github.com/wturnerharris/7413478) gist.
 
@@ -205,27 +210,53 @@ If New Relic is not available, use XDebug and/or a PHP Profiler.
 ## Security Considerations
 
 ### Using nonces
-TODO
+
+Use nonces for any custom form/post submission or when dealing with obtaining data from WordPress. 
+
+If page caching is being employed on a server, then the nonce will likely be stale and cached from another user. In most cases, we will use page caching, so an asynchronous request for a nonce is a viable alternative. See the following pseudocode:
+
+```js
+ // frontend 
+ get_nonce( wp_admin_ajax_nonce, set_nonce ) // ajax function to retrieve nonce from the backend
+ 
+ set_nonce() // save nonce to local storage or cookie
+ 
+ submit_data( wp_admin_ajax_request, request_with_nonce ) // ajax request to get data using your nonce
+```
+
+```php
+ // backend
+ function wp_admin_ajax_nonce( $request ) {} // set a nonce and return it
+ 
+ function wp_admin_ajax_request ( $data ) {} // verify the nonce and proceed with sending data if the nonce is valid
+```
+
+Read more on [nonces](https://codex.wordpress.org/WordPress_Nonces). 
 
 ### Filesystem
-TODO
+
+Filesystem writes should be disabled for any production environment. In addition, disabling the ability to edit plugins, themes, etc in WordPress should be [disallowed](https://codex.wordpress.org/Hardening_WordPress#Disable_File_Editing)
+
+### User Input
+
+**Never trust user input**. Always use proper [escaping](https://codex.wordpress.org/Validating_Sanitizing_and_Escaping_User_Data) functions when handling user input from search queries, ajax function, form posts, etc.
 
 ### Handling the Database
 
-Avoid direct database queries. WordPress has built-in functionality for getting information in and out of the database. Just for PHP, always use prepared statements. Using these functions always possible makes sure that you are benefiting from any optimizations or caching that is already implemented within those functions. See Database Queries for tips.
+Avoid direct database queries. WordPress has built-in functionality for getting information in and out of the database. Just as with any PHP application, always use prepared statements and **never trust user input**. Using these functions always possible makes sure that you are benefiting from any optimizations or caching that is already implemented within those functions. See Database Queries for tips.
 
-### Using $wpdb
+#### Using $wpdb
 
-You can’t always use built-in functionality to access the database, but you can most certainly use the abstraction layer built into WordPress to handle all CRUD functionality. If you’re using mysql_connect(), then you're not using the correct library.
+You can’t always use built-in functionality to access the database, but you can most certainly use the `$wpdb` [abstraction layer](https://codex.wordpress.org/Class_Reference/wpdb) built into WordPress to handle all CRUD functionality. If you’re using mysql_connect(), then you're not using the correct library.
 
-### APIs
+## APIs
 
 Please make use of WordPress APIs and classes. It might take some reading up, but it’s very easy to add a [settings](http://codex.wordpress.org/Settings_API) page the WordPress way using the Settings API. You can also use the existing class for [tables](https://gist.github.com/wturnerharris/7413971) by extending it in order to create a visually seamless backend.
 
 ## Do Not Forget
 
 * Are you adding a screenshot.png to your theme?
-* Did you include a readme.md?
+* Did you include a readme.md to theme root?
 * Are you commenting your functions and complex code?
 
 ## Additional Resources for Best Practices
