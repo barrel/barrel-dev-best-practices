@@ -253,11 +253,13 @@ Filesystem writes should be disabled for any production environment. In addition
 
 ### Handling the Database
 
-Avoid direct database queries. WordPress has built-in functionality for getting information in and out of the database. Just as with any PHP application, always use prepared statements and **never trust user input**. Using these functions always possible makes sure that you are benefiting from any optimizations or caching that is already implemented within those functions. See Database Queries for tips.
+Avoid direct database queries. WordPress has built-in functionality for getting information in and out of the database. Just as with any PHP application, always use prepared statements and **never trust user input**. 
 
 #### Using $wpdb
 
 You can’t always use built-in functionality to access the database, but you can most certainly use the `$wpdb` [abstraction layer](https://codex.wordpress.org/Class_Reference/wpdb) built into WordPress to handle all CRUD functionality. If you’re using mysql_connect(), then you're not using the correct library.
+
+Using these functions ensures that the application is benefiting from any optimizations or caching that is already implemented within those functions. See Database Queries for tips.
 
 ## APIs
 
