@@ -6,7 +6,7 @@
 - [Templates, Modules, Components, and Partials](#templates-modules-components-and-partials)
 - [Images](#images)
 - [Rewrites](#rewrites)
-- [Performance & Security](#performance-security)
+- [Performance & Security](#performance-security-considerations)
 - [APIs](#apis)
 
 
@@ -221,7 +221,9 @@ If New Relic is not available, use [XDebug](https://xdebug.org/) and/or an IDE w
 
 Use nonces for any custom form/post submission or when dealing with obtaining data from WordPress. 
 
-If page caching is being employed on a server, then the nonce will likely be stale and cached from another user. In most cases, we will use page caching, so an asynchronous request for a nonce is a viable alternative. See the following pseudocode:
+If page caching is being employed on a server, then the nonce will likely be stale and cached from another user. In most cases, we will use page caching, so an asynchronous request for a nonce is a viable alternative. 
+
+See the following pseudocode:
 
 ```js
  // frontend 
