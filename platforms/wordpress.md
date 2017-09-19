@@ -8,6 +8,7 @@
 - [Rewrites](#rewrites)
 - [Performance & Security](#performance-security-considerations)
 - [APIs](#apis)
+- [Preferred Plugins](#preferred-plugins)
 
 
 # WordPress Best Practices
@@ -264,6 +265,16 @@ Using these functions ensures that the application is benefiting from any optimi
 ## APIs
 
 Please make use of WordPress APIs and classes. It might take some reading up, but it’s very easy to add a [settings](http://codex.wordpress.org/Settings_API) page the WordPress way using the Settings API. You can also use the existing class for [tables](https://gist.github.com/wturnerharris/7413971) by extending it in order to create a visually seamless backend.
+
+## Preferred Plugins
+
+If not already included, here are preferred plugins:
+- Gravity Forms
+- Advanced Custom Fields Pro 5
+- Custom Post Type UI
+- Intuitive Custom Post Order
+- Kraken
+- WordPres SEO (Yoast)
 
 ## Do Not Forget
 
