@@ -11,7 +11,7 @@
 ***
 #### 📍 Base Rules
 
-#### Keep module files succinct
+#### 1️⃣ Keep module files succinct
 Consider your code from the perspective of another engineer coming in with no prior knowledge of the project. Short, succinct code is much easier to review than long verbose code. A module that gets the same job done in less lines of code is a end goal to work towards. See below for a number of techniques that can help you tighten up your code.
 
 **Abstract common tasks to utility functions**
@@ -88,7 +88,47 @@ const expression = (opts = {}) => {
 
 
 
-#### Keep nesting to a minimum
+#### 2️⃣ Keep nesting to a minimum
+
+High degrees of nesting creates increased line sizes and control flow confusion that detracts from code readability. The simpler the code, the easier it is to identify issues later on in the project, especially through the eyes of another developer. Restricting yourself to writing code that limits nesting to 2 or 3 indents deep helps maintain a more digestable codebase.
+
+```javascript
+// Bad
+document.addEventListener( 'DOMContentLoaded', () => {
+    [].slice.call(document.querySelectorAll('.js-selector')).forEach(el => {
+        if (el.classList.contains('js-active')) {
+            el.addEventListener('click', e => {
+                document.querySelector('.js-target').classList.add('is-visible')
+            })
+        }
+    })
+})
+
+// Good
+const init = () => {
+    select('.js-selector').forEach(assignListener)
+}
+
+const select = (selector, parent = document) => (
+    [].slice.call(
+        parent.querySelectorAll(selector)
+    )
+)
+
+const assignListener = el => {
+    if (el.classList.contains('js-active')){
+        el.addEventListener('click', handleEvent)
+    }
+}
+
+const handleEvent = e => {
+    select('.js-target').classList.add('is-visible')
+}
+
+document.addEventListener('DOMContentLoaded', init)
+```
+
+
 #### Leverage native functions over vendor libraries
 #### Understand the browser compatibility of your code
 #### Always lint your code using standardJS rules
@@ -143,7 +183,7 @@ export default init
 
 ***
 #### 📍 Compiling
-Utilize Webpack to build, transpile and minify your bundle. Typically, there are two Webpack config files, ```webpack.config.js``` (dev) and ```webpack.production.config.js``` (production). The dev file is used when writing code while the production file is used to prepare the js bundle for production. The dev file will watch files, transpile files and serve files to the dev server. The production file will optimize files and write them to the file system.
+Utilize Webpack to build, transpile and minify your bundle. Typically, there are two Webpack config files, ```webpack.config.js``` (dev) and ```webpack.production.config.js``` (production). The dev file is used when writing code while the production file is used to prepare the js bundle for production. The dev file will watch files, transpile files and serve files to the dev server. The production file will optimize files and write them to the file system. 
 
 ***
 #### 📍 jQuery Shims
