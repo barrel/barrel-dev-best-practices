@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', init)
 ```
 
 
-#### Leverage native functions over vendor libraries
+#### Keep a handle on your bundle size (the smaller the better)
 #### Understand the browser compatibility of your code
 #### Always lint your code using standardJS rules
 
