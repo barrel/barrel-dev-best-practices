@@ -133,6 +133,11 @@ document.addEventListener('DOMContentLoaded', init)
 
 This is something to keep in mind right from when you are providing feedback on designs. A developer should be considering the amount of vendor libraries that will be needed to satisfy the designs and the load time increase that these libraries will introduce. 
 
+Some common questions to ask yourself
+- Can these animations be acheived through CSS or will I need to introduce an animation library?
+- Do I need to add React to this project or will I better be served using Preact *or* writing this code without a framework?
+- I see there are 3 slideshow variations. Can these variations be consolidated or can I find a slideshow library that will support all 3?
+
 #### Understand the browser compatibility of your code
 #### Always lint your code using standardJS rules
 
