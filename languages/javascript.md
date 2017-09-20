@@ -129,7 +129,10 @@ document.addEventListener('DOMContentLoaded', init)
 ```
 
 
-#### Keep a handle on your bundle size (the smaller the better)
+#### 3️⃣ Keep a handle on your bundle size (the smaller the better)
+
+This is something to keep in mind right from when you are providing feedback on designs. A developer should be considering the amount of vendor libraries that will be needed to satisfy the designs and the load time increase that these libraries will introduce. 
+
 #### Understand the browser compatibility of your code
 #### Always lint your code using standardJS rules
 
