@@ -138,7 +138,10 @@ Some common questions to ask yourself:
 - Do I need to add React to this project or will I better be served using Preact *or* writing this code without a framework?
 - I see there are 3 slideshow variations. Can these variations be consolidated or can I find a slideshow library that will support all 3?
 
-#### Understand the browser compatibility of your code
+#### 4️⃣ Understand the browser compatibility of your code
+
+Ask yourself *"Will the supported browsers outlined in the SOW support this?"* whenever you utilize a new method or Javascript object. Babel will transpile a lot of ES2015 with the ES2015 preset but it doesn't provide support for everything. If you are going to utilize the Fetch specification, Promises, Object.assign or other new standards, make sure that there is an appropriate polyfill added in the build process. 
+
 #### Always lint your code using standardJS rules
 
 ***
