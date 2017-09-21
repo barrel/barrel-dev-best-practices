@@ -142,7 +142,9 @@ Some common questions to ask yourself:
 
 Ask yourself *"Will the supported browsers outlined in the SOW support this?"* whenever you utilize a new method or Javascript object. Babel will transpile a lot of ES2015 with the ES2015 preset but it doesn't provide support for everything. If you are going to utilize the Fetch specification, Promises, Object.assign or other new standards, make sure that there is an appropriate polyfill added in the build process. 
 
-#### Always lint your code using standardJS rules
+#### 5️⃣ Always lint your code using standardJS rules
+
+Make sure that Eslint has been added to the build script of your project. Use StandardJS rules with as few modifications as possible.
 
 ***
 
