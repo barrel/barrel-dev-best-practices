@@ -17,7 +17,7 @@ Consider your code from the perspective of another engineer coming in with no pr
 **Abstract common tasks to utility functions**
 
 ```javascript
-// Bad
+// Yucky
 const parent = [].slice.call(document.querySelectorAll('.js-parent'))
 const child = [].slice.call(parent.querySelectorAll('.js-child'))
 // ...
@@ -38,44 +38,50 @@ const child = select('.js-child', parent)
 **Consider using tenery operators** (When it doesn't detract from code readability)
 
 ```javascript
-// Bad 
+// Verbose
 scroll(y => {
     if (y >= 10) {
-        document.body.classList.add('is-fixed')
+       el.body.classList.add('is-fixed')
     } else {
-        document.body.classList.remove('is-fixed')
+        el.classList.remove('is-fixed')
     }
 })
 
-// Good
+// Streamlined
 scroll(y => {
-    document.body.classList[y >= 10 ? 'add' : 'remove']('is-fixed')
+    el.classList[y >= 10 ? 'add' : 'remove']('is-fixed')
 })
 ```
 
 **Consider using arrow functions instead of functional expressions**
 
 ```javascript
-// Bad
+// Verbose
 const expression = function(foo, bar) {
     return foo * bar
 }
 
 // Good
 const expression = (foo, bar) => foo * bar
+
+// Note: Named functions have the benefits of
+// hoisted interpretation and ease of profiling
+function expression (foo, bar) {
+    return foo * bar
+}
 ```
 
 **Consider using default parameter syntax**
 
 ```javascript
-// Bad
+// Verbose
 const expression = opts => {
     if (opts === void 0) {
     opts = {}
   }
 }
 
-// Bad
+// Verbose
 const expression = opts => {
     opts = opts || {}
 }
@@ -99,6 +105,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
         if (el.classList.contains('js-active')) {
             el.addEventListener('click', e => {
                 document.querySelector('.js-target').classList.add('is-visible')
+                // .. So on and so forth
             })
         }
     })
