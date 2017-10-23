@@ -72,9 +72,10 @@ Avoid using global variables, instead use [dependency injection](https://stackov
 
 [PHP tags](http://www.php.net/manual/en/language.basic-syntax.phptags.php)
 
-Do not use short open php tags. The best practice is to use the full `<?php` open tag verses the short open tag `<?`. This is because the abbreviated version requires `short_open_tag = On` in php.ini, and access to php.ini may not be available in the production environment.
+**Do not** use short open php tags. The best practice is to use the full `<?php` open tag verses the short open tag `<?`. This is because the abbreviated version requires `short_open_tag = On` in php.ini, and access to php.ini may not be available in the production environment. It also confuses servers since other markup and template languages like xml also use `<?` to open their document context.
 
-Use of the short echo tag, `<?=`, is permissable but can only be safely used on a server with PHP 5.4 or higher. If the feature is ever removed from php or a php downgrade is required, a global find a replace can be performed.
+### Short open *echo* tags
+Use of the short echo tag, `<?=`, is permissable but can only be safely used on a server with PHP 5.4 or higher. If the feature is ever removed from php or a php downgrade is required, a global find a replace can be performed. We use this in the context of simple one-line echo statements only. All other cases should use the full php open tags with a corresponding `print` or `echo` call.
 
 ### Accidental whitespace
 
