@@ -27,12 +27,13 @@ The steps below provide some guidance on how to prepare SVGs for insertion into 
 
 ### Using SVGs inside your project
 
-> Note: This method is only suitable if your project needs to support browsers IE11 an up, as the ```use`` attribute is a modern standard. We're working on a JS polyfill to provide ```use``` support for older browsers.
+> Note: This method is only suitable if your project needs to support browsers IE11 an up, as the ```use``` attribute is a modern standard. We're working on a JS polyfill to provide ```use``` support for older browsers.
 
 #### Methodology
 
 We include SVGs inside a project using a modular infrastructure. This method has a few ingredients:
-1. Add a snippet/ partial that includes all SVG sources, with each individual SVG given an id
+Add a snippet/ partial that includes all SVG sources, with each individual SVG given an id
+
 ``` html
 icon-paths.lqiuid
 
@@ -42,7 +43,8 @@ icon-paths.lqiuid
 Add all your SVGs here..
 ```
 
-2. Add a snippet/ partial that is used to pull in your SVG icons into the correct locations on the DOM. Below is an example in liquid (Shopify) but the same methodology can be used in Wordpress or a static website (using Assemble or otherwise).
+Add a snippet/ partial that is used to pull in your SVG icons into the correct locations on the DOM. Below is an example in liquid (Shopify) but the same methodology can be used in Wordpress or a static website (using Assemble or otherwise).
+
 ```liquid
 icon.lqiuid
 
@@ -55,7 +57,9 @@ icon.lqiuid
 Add all your SVGs here..
 {% endcase %}
 ```
-3. In your DOM, include icon.liquid and pass in the variable that determines the icon to include.
+
+In your DOM, include icon.liquid and pass in the variable that determines the icon to include.
+
 ```liquid
 <div class='facebook-icon'>
   {% include 'icon' with 'facebook' %}
