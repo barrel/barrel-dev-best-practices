@@ -81,6 +81,32 @@ Use of the short echo tag, `<?=`, is permissable but can only be safely used on 
 
 Files that are pure PHP should have `<?php` on line one and should not have any new lines or white space at the top of the file. It is also best practice to omit the closing PHP tag at the end of the file in order to avoid the output buffer from sending the output unintentially.
 
+### Control Structures within Classes
+
+When writing classes, functions, control, or conditional structures with PHP, please use curly braces exclusively rather than mixing with the alternative syntax for control structures (note on exception below). Whether or not curly braces stand on their own or inline with the block is purely conventional. The more important thing is that they be consistent within a programming language across the project.
+
+```php
+<?php
+class WP_Post {
+    // curly inline
+}
+
+function test_function
+{
+    // curly new line
+}
+
+if ( is_array( array() ) ) {
+    // curly inline
+}
+
+foreach( array() as $k => $v )
+{
+    // curly new line
+}
+```
+Again, consistent use of one or the other is prefferable.
+
 ### Templating with PHP
 
 [Alternate syntax for control structures](http://us1.php.net/alternative_syntax)
