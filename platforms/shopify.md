@@ -395,15 +395,15 @@ Do this (in one file):
 
 Don't do this: 
 
-**File_1.liquid**
+`file_1.liquid`
 
 ```
 {% assign VARIABLE_NAME = VARIABLE VALUE | Default: blank %}
 
-{% include 'MODULE_NAME' %}
+{% include 'snippet_name' %}
 ```
 
-**MODULE_NAME.liquid**
+`snippet_name.liquid`
 
 ```
 <div class="{{ VARIABLE_NAME }}"></div>
