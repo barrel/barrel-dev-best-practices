@@ -18,6 +18,7 @@
   - Inclusion
   - SVG icons
   - Tutorials
+  - Variables
 
 **4. Workflow**
   - Environments
@@ -380,6 +381,14 @@ Prioritize *components inside modules*, *modules inside sections* and *sections 
 #### Tutorials
 - [Product Exploded View](https://kb.barrelny.com/shopify-development-product-exploded-view/)
 - [Split Product Content](https://kb.barrelny.com/shopify-development-split-content/)
+
+#### Variables
+- Liquid variables should be scoped to the module in which they are used. Each variable should be reset to `false` at the bottom of the file it's being used in.
+```
+{% assign VARIABLE_NAME = VARIABLE_VALUE | Default: blank %}
+// do some stuff in your template file
+{% assign VARIABLE_NAME = false  %}
+``` 
 
 * * *
 
