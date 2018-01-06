@@ -384,6 +384,7 @@ Prioritize *components inside modules*, *modules inside sections* and *sections 
 
 #### Variables
 - Liquid variables should be scoped to the module in which they are used. Each variable should be reset to `false` at the bottom of the file it's being used in.
+
 ```
 {% assign VARIABLE_NAME = VARIABLE_VALUE | Default: blank %}
 // do some stuff in your template file
