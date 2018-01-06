@@ -383,14 +383,33 @@ Prioritize *components inside modules*, *modules inside sections* and *sections 
 - [Split Product Content](https://kb.barrelny.com/shopify-development-split-content/)
 
 #### Variables
-- Liquid variables should be scoped to the module in which they are used. Each variable should be reset to `false` at the bottom of the file it's being used in.
+- Liquid variables should be scoped to the module in which they are used. In most cases, you should not be declaring a variable in one file and using it inside of another.
+- Each variable should be reset to `false` at the bottom of the file it's being used in.
 
+Do this (in one file):
 ```
 {% assign VARIABLE_NAME = VARIABLE_VALUE | Default: blank %}
 // do some stuff in your template file
 {% assign VARIABLE_NAME = false  %}
 ``` 
 
+Don't do this: 
+
+**File_1.liquid**
+
+```
+{% assign VARIABLE_NAME = VARIABLE VALUE | Default: blank %}
+
+{% include 'MODULE_NAME' %}
+```
+
+**MODULE_NAME.liquid**
+
+```
+<div class="{{ VARIABLE_NAME }}"></div>
+
+{% assign VARIABLE_NAME = false %}
+```
 * * *
 
 ### 📍 4. Workflow
