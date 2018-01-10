@@ -33,19 +33,14 @@ Properties declared within a class that are specific to the context of the eleme
 ### 📍 Structure
 ```bash
 base/
-  |– settings
-  |– colors
-  |- whitespace
-  |– grid
+  |– variables
+  |– breakpoints
+  |- fonts
+  |– typography
   |– etc
 elements/
   |– forms
   |– buttons
-  |– etc
-components/
-  |– caption
-  |– responsive-image
-  |– slideshow
   |– etc
 modules/
   |– hero
@@ -56,12 +51,18 @@ templates/
   |– etc
 ```
 The main goal here is starting from the most base-level styles and working our way up (down, in this list) in specificity. Think about it in terms of what can be reused. Grid classes can be used on elements like form fields, which in turn can be used within small components, which in turn can be composed into larger modules, which in turn make up pages and templates.
+
+When we are using Barrel's base themes, the aim is to modularize as much as possible and restrict the need to have template specific code. In the best case, every part of a template is a module, and template specific variations to modules are handled in the module's stylesheet using BEM modifier syntax (see below). Each module has a stylesheet which is stored in the module's directory (`e.g. modules/slideshow/slideshow.css`) rather that the css directory that houses the base stylesheets. 
+
 ***
 ### 📍 Workflow
 - use `.scss` dialect
   - or `.css`, \*gasp\*
 - Autoprefixer
 - minify for production
+
+We are currently compiling our Sass or wait for it... css4 using Webpack with both Sass and Postcss loaders. Check out the Shopify base theme for example Webpack and Postcss configuration files.
+
 ***
 ### 📍 Selectors
 Always use **classes.** IDs shouldn't have a place in your CSS. Since their very nature is one of *non-reusability*, they work against the natural reuse possible with CSS and the cascade.

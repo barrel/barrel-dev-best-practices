@@ -1,4 +1,4 @@
-## Icon Best Practices
+## How to add icons to a project
 
 ### Table of Contents
 1. [Icon Approach (SVGs)](h#icon-approach-svgs)
