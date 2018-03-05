@@ -24,6 +24,14 @@
 
 ## Browser Plugins
 - [HTTP/2 Checker](https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin?hl=en)
+- [Siteimprove Accessibility Checker](https://chrome.google.com/webstore/detail/siteimprove-accessibility/efcfolpjihicnikpmhnmphjhhpiclljc?hl=en-US)
+- [Validity (HTML Validator)](https://chrome.google.com/webstore/detail/validity/bbicmjjbohdfglopkidebfccilipgeif?hl=en-US)
+- [What Font](https://chrome.google.com/webstore/detail/whatfont/jabopobgcpjmedljpbcaablpmlmfcogm?hl=en-US)
+
+## Cross-Browser Testing
+- [Browserstack](https://www.browserstack.com)
+- [Browserling](https://www.browserling.com/)
+- [Microsoft VMs](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
 
 ## Validation
 Validate your HTML with the [W3C Markup Validation Service](https://validator.w3.org/)
