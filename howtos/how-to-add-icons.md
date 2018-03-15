@@ -1,28 +1,20 @@
 ## How to add icons to a project
 
 ### Table of Contents
-1. [Icon Approach (SVGs)](h#icon-approach-svgs)
+1. [Icon Approach](#icon-approach)
 2. [Preparing SVGs](#preparing-svgs)
 3. [Using SVGs inside your project](#using-svgs-inside-your-project)
 
-## Icon Approach (SVGs)
+## Icon Approach
 
-If you need to use icons in a project going forward we recommend using an [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG)-based workflow, as described below.
+If you need to use icons in a project, in most cases we recommend using an [SVG](https://developer.mozilla.org/en-US/docs/Web/SVG)-based workflow, as described below. However, there are many caveats to using svg files. Please ensure all implications for using them are considered.
 
 ## Preparing SVGs
 
-The steps below provide some guidance on how to prepare SVGs for insertion into your project. The workflow below is dependant on being provided with Sketch files and having access to Illustrator. Usually, these steps will be executed by the designer on the project. 
+Follow [these steps](/howtos/how-to-prepare-svg-files.md) for guidance on how to prepare SVGs before being used on the project. Below are some additional formatting considerations.
 
-1. Open Sketch file
-1. Export icon as .svg from Sketch (Steps 3-10 apply when saving an SVG from an icon created in Adobe Illustrator)
-1. Open .svg in Adobe Illustrator and ungroup all objects
-1. Expand any strokes into outlines
-1. Merge shapes that overlap/connect with one another
-1. Cutout any areas from shape that are meant to be transparent
-1. Make all paths compound paths
-1. Size your artboard to fit the artwork
-1. Copy your .svg and paste it into a new Illustrator file the same dimensions as your previous artboard
-1. Save your file as an .svg – using the default settings from Illustrator
+1. Avoid `id="*"` attributes within the svg file, especially if the file is to be *output* multiple times on a single page; i.e. using a search icon in the menu and in the search bar or submit buttons using iconography in several places on the page such as search submission, newsletter submission, etc. *The exception to this rule* is if you only output one svg with multiple svgs in a single file.
+2. Avoid using `<title/>` and `<desc/>` elements within the SVG file, and instead use adjacent elements with visually hidden text to give context; i.e. `<button aria-label="Subscribe to Newsletter"><svg/><span class="hidden-text">Subscribe to Newsletter</span>
 
 ### Using SVGs inside your project
 
@@ -75,8 +67,9 @@ WordPress can largely mirror this workflow.
 
 **TBD**
 
-## Notes
-- There can be only one `id` attribute with the same value defined in the entire HTML document.
+## Caveats
+- There can be only one `id` attribute with the same value defined in the entire HTML document, so this includes svg files.
+- Any `<?xml` declarations at the top of the svg file should be stripped to keep the HTML document valid. This is only required for svgs that are directly output in html.
 
 ### Questions
 - Can any of the above be automated with a local "task"?
