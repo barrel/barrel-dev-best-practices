@@ -247,3 +247,17 @@ git commit --amend
 # alternatively, you can leave you last commit message unchanged
 git commit --amend --no-edit
 ```
+
+**You need to compare differences between branches while exluding certain files or directories:**
+Let's say you've got some bad merges and are trying to cherry pick commits from different branches to clean up & resolve your git history.. It would be useful to `diff` to make sure you got everything while exluding the noise of certain files or directories (i.e. processed styles & scripts).
+
+```
+# exclude directory
+git diff branch_1_name branch_2_name -- . ':!/path/to/directory/*'
+
+# exclude file
+git diff branch_1_name branch_2_name -- . ':!/path/to/file/'
+
+# exclude multiple files/directories
+git diff branch_1_name branch_2_name -- . ':!/path/to/file/' ':!/path/to/directory/*' 
+```
