@@ -5,6 +5,7 @@ Barrel primarily works with three platforms. Both WordPress and Shopify use them
 ## Shopify
 
 **Demo:** https://base-dev.myshopify.com/
+
 **Issues:** https://gitlab.com/barrel/barrel-shopify/issues
 
 **Tech Stack:**
@@ -18,6 +19,7 @@ Barrel primarily works with three platforms. Both WordPress and Shopify use them
 ## WordPress
 
 **Demo:** http://dev-barrel-base-theme.pantheonsite.io/
+
 **Issues:** https://gitlab.com/barrel/barrel-wordpress/issues
 
 **Tech Stack:**
@@ -32,6 +34,7 @@ Barrel primarily works with three platforms. Both WordPress and Shopify use them
 ## Static
 
 **Demo:** https://barrel-assemble.netlify.com/
+
 **Issues:** https://gitlab.com/barrel/barrel-assemble/issues
 
 **Tech Stack:**
