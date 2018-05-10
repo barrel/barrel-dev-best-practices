@@ -34,23 +34,23 @@ A more thorough documentation can be find [here](https://help.shopify.com/themes
   - **Objects** are used to display content stored in the database of your store, like `product`, `collection` or `customer`. Each of those object has attributes that can be output using `{{` `}}` that way:
 
   ```
-  This {{ product.title }}} belongs to the {{ collection.title }} and costs $ {{ product.price }}.
+  This {{- product.title -}}} belongs to the {{- collection.title -}} and costs $ {{- product.price -}}.
   ```
 
   - **Tags** are used for programming logic and help to tell a template what to do. They are wrapped in `{%` `%}` and can be as basic as a `if`/`else` statement or can be a bit more developed like a `capture` or `assign` statement:
 
   ```
-  {% if product.title contains 'exceptional' %}
+  {%- if product.title contains 'exceptional' -%}
     This product is exceptional.
-  {% else %}
+  {%- else -%}
     This product is basic.
-  {% endif %}
+  {%- endif -%}
   ```
 
   - **Filters** are methods that are applied to something that is being output like a string, a number, an object or a variable. They are therefore used inside `{{` `}}` and are seperated by a pipe `|`:
  
   ```
-  How much does this {{ product.title | capitalize }} cost? It cost {{ product.title | money_with_currency }}
+  How much does this {{- product.title | capitalize -}} cost? It cost {{- product.title | money_with_currency -}}
   ```
 
 #### Theme Kit
@@ -103,7 +103,7 @@ Those are the 7 required directories for a Shopify theme:
 - Snippets are chunk of reusable codes that can be included anywhere by using the `include` tag:
 
 ```
-{% include 'my_snippet' %}
+{%- include 'my_snippet' -%}
 ```
 
 - We distinguish 2 main types of snippets: Modules and Components.
@@ -112,26 +112,26 @@ Those are the 7 required directories for a Shopify theme:
 - Use parameters to pass content and properties to a snippet:
 
 ```
-{% include 'button', style:'white', value:'Add to Cart' %}
+{%- include 'button', style:'white', value:'Add to Cart' -%}
 ```
 
 - Use `with` to define a snippet:
 
 ```
-{% include 'button' with 'link' %}
+{%- include 'button' with 'link' -%}
 
 // Inside the snippet
 
-{% case button %}
-	{% when 'link' %}
+{%- case button -%}
+	{%- when 'link' -%}
 		<a class="btn">
 			// Snippet content
 		</a>
-	{% default %}
+	{%- default -%}
 		<button class="btn">
 			// Snippet
 		</button>
-{% endcase %}
+{%- endcase -%}
 ```
 
 #### Sections
@@ -139,13 +139,13 @@ Sections are similar to Modules as they are elaborated chunk of codes, but their
 - Sections are added using the `section` tag:
 
 ```
-{% section `hero` %}
+{%- section `hero` -%}
 ```
 
-- Settings for a section are added inside the section file within the `{% schema %}` `{% endschema %}` tag:
+- Settings for a section are added inside the section file within the `{%- schema -%}` `{%- endschema -%}` tag:
 
 ```
-{% schema %}
+{%- schema -%}
   {
     "name": "Hero",
     "settings": [ {
@@ -154,7 +154,7 @@ Sections are similar to Modules as they are elaborated chunk of codes, but their
         "label": "Title"
     } ]
   }
-{% endschema %}
+{%- endschema -%}
 ```
 
 - A section can be **static** or **dynamic**:
@@ -164,7 +164,7 @@ Sections are similar to Modules as they are elaborated chunk of codes, but their
 - Blocks can have a type, and for each type a set of different settings. For example, a `slideshow` section has 2 block types: `Background Image Slide` and `Default Slide`:
 
 ```
-{% schema %}
+{%- schema -%}
   {
     "name": "Hero",
     "settings": [], 
@@ -194,7 +194,7 @@ Sections are similar to Modules as they are elaborated chunk of codes, but their
         } ]
     } ]
   }
-{% endschema %}
+{%- endschema -%}
 ```
 
 - Variables created within a section are not available outside of it.
@@ -205,12 +205,12 @@ Sections are similar to Modules as they are elaborated chunk of codes, but their
 
 ### 📍 3. Guidelines
 #### Global
-- Don't use regular liquid brackets like this `{% ... %}` and `{{ .. }}` but make sure to use ones that include hyphens like this `{%- ... -%}` and `{{- ... -}}`. Adding hyphens to liquid brackets remove all unecessary white space around your liquid declaration.
+- Don't use regular liquid brackets like this `{%- ... -%}` and `{{- .. -}}` but make sure to use ones that include hyphens like this `{%- ... -%}` and `{{- ... -}}`. Adding hyphens to liquid brackets remove all unecessary white space around your liquid declaration.
 
 For example:
 ```
 <span class="word">
-  {{ my_word }}
+  {{- my_word -}}
 </span>
 ```
 will render HTML like this:
@@ -233,8 +233,8 @@ will render HTML like this:
 - For all JS asset files use the `script_tag` filter and for all Stylesheet asset files use the `stylesheet_tag` filter:
 
 ```
-{{ 'styles.css.liquid' | asset_url | stylesheet_tag }}
-{{ 'main.js' | asset_url | script_tag }}
+{{- 'styles.css.liquid' | asset_url | stylesheet_tag -}}
+{{- 'main.js' | asset_url | script_tag -}}
 ```
 
 - For all image assets use the size parameters:
@@ -242,30 +242,30 @@ will render HTML like this:
 > Set width only
 
 ```
-{{ product.image | img_url: '400x' }} or {{ 'my-image.jpg' | asset_img_url: '400x' }}
+{{- product.image | img_url: '400x' -}} or {{- 'my-image.jpg' | asset_img_url: '400x' -}}
 ```
 
 > Set height only
 
 ```
-{{ product.image | img_url: 'x400' }} or {{ 'my-image.jpg' | asset_img_url: '400x' }}
+{{- product.image | img_url: 'x400' -}} or {{- 'my-image.jpg' | asset_img_url: '400x' -}}
 ```
 
 - Use the `split` filter to convert a string to an array:
 
 ```
-{% assign colors = 'blue,orange,red,purple,green,yellow' | split: ',' %}
+{%- assign colors = 'blue,orange,red,purple,green,yellow' | split: ',' -%}
 
-{% for color in colors %}
-  {{ color }}
-{% endfor %}
+{%- for color in colors -%}
+  {{- color -}}
+{%- endfor -%}
 ```
 
 - Convert a string to a number using a math filter like `minus`:
 
 ```
-{% assign string_number = '5000' %}
-{% assign number = string_number | minus: 0 %}
+{%- assign string_number = '5000' -%}
+{%- assign number = string_number | minus: 0 -%}
 ```
 
 - Use `canonical_url` in `theme.liquid` to handle pages associated with no templates (commonly happens when apps renders page on the store).
@@ -278,8 +278,8 @@ Store Locator URL:
 Inside `theme.liquid`:
 ```
 ...
-{%- if canonical_url contains 'store-locator' %}
-  {%- include 'store-locator-hero' %}
+{%- if canonical_url contains 'store-locator' -%}
+  {%- include 'store-locator-hero' -%}
   // Where the app will renders its content.
   {{- content_for_layout -}}
 {%- else -%}
@@ -292,34 +292,34 @@ Inside `theme.liquid`:
 - Snippets that are used in multiple templates (Modules like `hero` or `slideshow` - Components like `button` or `image`) shouldn't have any hard coded content - only variables whose values are inherited from the snippet parameters. All snippets variables should have a default value:
 
 ```
-{% include 'hero', title: my_title, content: my_content %}
+{%- include 'hero', title: my_title, content: my_content -%}
 
 // Inside the 'hero' snippet
 
-{% assign title = title | default: false %}
-{% assign content = content | default: false %}
+{%- assign title = title | default: false -%}
+{%- assign content = content | default: false -%}
 
 <section class="hero">
-  {% if title %}
-    <h1 class="hero__title">{{ title }}</h1>
-  {% endif %}
+  {%- if title -%}
+    <h1 class="hero__title">{{- title -}}</h1>
+  {%- endif -%}
   
-  {% if content %}
-    <p class="hero__content">{{ content }}</p>
-  {% endif %}
+  {%- if content -%}
+    <p class="hero__content">{{- content -}}</p>
+  {%- endif -%}
 </section>
 ```
 
 - All variables declared in a snippet (Module/Component) are not "isolated" within it, so always clear them:
 
 ```
-{% assign title = 'value' | default: false %}
-{% assign index = 5 | default: 0 %}
+{%- assign title = 'value' | default: false -%}
+{%- assign index = 5 | default: 0 -%}
 
 // Snippet Content
 
-{% assign title = false %}
-{% assign index = false %}
+{%- assign title = false -%}
+{%- assign index = false -%}
 ```
 
 #### Paremeters
@@ -328,17 +328,17 @@ Inside `theme.liquid`:
 Do this:
 
 ```
-{% include 'hero',
+{%- include 'hero',
   title: my_title,
   content: my_content,
   image: my_image
-  cta_text: my_cta_text %}
+  cta_text: my_cta_text -%}
 ```
 
 Don't do this:
 
 ```
-{% include 'hero', title: my_title, content: my_content, image: my_image, cta_text: my_cta_text %}
+{%- include 'hero', title: my_title, content: my_content, image: my_image, cta_text: my_cta_text -%}
 ```
 
 #### Inclusion
@@ -348,78 +348,78 @@ Prioritize *components inside modules*, *modules inside sections* and *sections 
 
 ```
 <head>
-  <title>{{ page_title }}</title>
-  {% include ‘meta-tags’ %}
-  {% include ‘stylesheets’ %}
+  <title>{{- page_title -}}</title>
+  {%- include ‘meta-tags’ -%}
+  {%- include ‘stylesheets’ -%}
 </head>
 
 <body>
   <main class=”main”>
-     {% include ‘header’ %}
+     {%- include ‘header’ -%}
 
-     {{ content_for_layout }}
+     {{- content_for_layout -}}
 
-     {% include ‘footer’ %}
+     {%- include ‘footer’ -%}
   </main>
 
-  {% include ‘libraries’ %}
+  {%- include ‘libraries’ -%}
 
-  {% if template contains ‘collection’ %}
-    {% include ‘optinmonster-collection’ %}
-  {% endif %}
+  {%- if template contains ‘collection’ -%}
+    {%- include ‘optinmonster-collection’ -%}
+  {%- endif -%}
 </body>
 ```
 
 > How a template should be structured?
 
 ```
-{% section 'hero' %}
+{%- section 'hero' -%}
 
-{% include ‘product-3-up’ %}
+{%- include ‘product-3-up’ -%}
 
-{% include ‘carousel’ %}
+{%- include ‘carousel’ -%}
 
-{% include ‘newsletter-block’ %}
+{%- include ‘newsletter-block’ -%}
 ```
 
 > How a section should be structured?
 
 ```
-{% assign section = section.settings %}
+{%- assign section = section.settings -%}
 
 // Multiple sections use the same hero layout, instead of adding inline code, the 'hero' module is called with the section settings passed to it as parameters.
-{% include ‘hero’, title:section[‘title’], content:section[‘content’] %}
+{%- include ‘hero’, title:section[‘title’], content:section[‘content’] -%}
 
-{% schema %}
+{%- schema -%}
    // Section settings
-{% endschema %}
+{%- endschema -%}
 ```
 
 > How a module should be structured?
 
 ```
-{% assign title = title | default: false %}
-{% assign content = content | default: false %}
-{% assign btn_text = btn_text | default: false %}
+{%- assign title = title | default: false -%}
+{%- assign content = content | default: false -%}
+{%- assign btn_text = btn_text | default: false -%}
 
 <section class=”hero”>
-  {% if title %}
-    <h1 class=”hero__title”>{{ title }}</h1>
-  {% endif %}
+  {%- if title -%}
+    <h1 class=”hero__title”>{{- title -}}</h1>
+  {%- endif -%}
 
-  {% if content %}
-  	<p class=”hero__content”>{{ content }}</p>
-  {% endif %}
+  {%- if content -%}
+  	<p class=”hero__content”>{{- content -}}</p>
+  {%- endif -%}
   
   // Include a component.
-  {% if btn_text %}
-    {% include ‘button’, value: btn_text %}
-  {% endif %}
+  {%- if btn_text -%}
+    {%- include ‘button’, value: btn_text -%}
+  {%- endif -%}
 </section>
 
-{% assign title = false %}
-{% assign content = false %}
-{% assign btn_text = false %}
+{%- assign title = false -%}
+{%- assign content = false -%}
+{%- assign btn_text = false -%}
 ```
 
 #### SVG Icons
@@ -427,20 +427,20 @@ Prioritize *components inside modules*, *modules inside sections* and *sections 
 - Structure the file as follow:
 
 ```
-{% case icon %}
-  {% when 'cart' %}
+{%- case icon -%}
+  {%- when 'cart' -%}
      // Add inline SVG here.
-  {% when 'search' %}
+  {%- when 'search' -%}
      // Add inline SVG here.
-  {% when 'arrow' %}
+  {%- when 'arrow' -%}
      // Add inline SVG here.
-{% endcase %}
+{%- endcase -%}
 ```
 
 - Include every icon as follow:
 
 ```
-{% include 'icon' with 'cart %}
+{%- include 'icon' with 'cart -%}
 ```
 
 #### Tutorials
@@ -453,9 +453,9 @@ Prioritize *components inside modules*, *modules inside sections* and *sections 
 
 Do this (in one file):
 ```
-{% assign VARIABLE_NAME = VARIABLE_VALUE | Default: blank %}
+{%- assign VARIABLE_NAME = VARIABLE_VALUE | Default: blank -%}
 // do some stuff in your template file
-{% assign VARIABLE_NAME = false  %}
+{%- assign VARIABLE_NAME = false  -%}
 ``` 
 
 Don't do this: 
@@ -463,17 +463,17 @@ Don't do this:
 `file_1.liquid`
 
 ```
-{% assign VARIABLE_NAME = VARIABLE VALUE | Default: blank %}
+{%- assign VARIABLE_NAME = VARIABLE VALUE | Default: blank -%}
 
-{% include 'snippet_name' %}
+{%- include 'snippet_name' -%}
 ```
 
 `snippet_name.liquid`
 
 ```
-<div class="{{ VARIABLE_NAME }}"></div>
+<div class="{{- VARIABLE_NAME -}}"></div>
 
-{% assign VARIABLE_NAME = false %}
+{%- assign VARIABLE_NAME = false -%}
 ```
 * * *
 
