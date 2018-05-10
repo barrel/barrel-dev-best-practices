@@ -318,8 +318,8 @@ Inside `theme.liquid`:
 
 // Snippet Content
 
-{%- assign title = false -%}
-{%- assign index = false -%}
+{%- assign title = nil -%}
+{%- assign index = nil -%}
 ```
 
 #### Paremeters
@@ -417,9 +417,9 @@ Prioritize *components inside modules*, *modules inside sections* and *sections 
   {%- endif -%}
 </section>
 
-{%- assign title = false -%}
-{%- assign content = false -%}
-{%- assign btn_text = false -%}
+{%- assign title = nil -%}
+{%- assign content = nil -%}
+{%- assign btn_text = nil -%}
 ```
 
 #### SVG Icons
@@ -449,13 +449,13 @@ Prioritize *components inside modules*, *modules inside sections* and *sections 
 
 #### Variables
 - Liquid variables should be scoped to the module in which they are used. In most cases, you should not be declaring a variable in one file and using it inside of another.
-- Each variable should be reset to `false` at the bottom of the file it's being used in.
+- Each variable should be reset to `nil` at the bottom of the file it's being used in.
 
 Do this (in one file):
 ```
 {%- assign VARIABLE_NAME = VARIABLE_VALUE | Default: blank -%}
 // do some stuff in your template file
-{%- assign VARIABLE_NAME = false  -%}
+{%- assign VARIABLE_NAME = nil -%}
 ``` 
 
 Don't do this: 
@@ -473,7 +473,7 @@ Don't do this:
 ```
 <div class="{{- VARIABLE_NAME -}}"></div>
 
-{%- assign VARIABLE_NAME = false -%}
+{%- assign VARIABLE_NAME = nil -%}
 ```
 * * *
 
