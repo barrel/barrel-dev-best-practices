@@ -414,7 +414,7 @@ Don't do this:
 
 ### 📍 4. Workflow
 #### Environments
-- All environments are declared in the `config.yml` file located in the `/dist` directory of the project with those informations:
+- All environments are declared in the `config.yml` file:
 
 ```
   theme_id: 
@@ -453,5 +453,5 @@ theme watch --env=ENVIRONMENT
 
 #### Shopify apps
 Those are basic Shopify apps that should be use in most of the themes:
-- [Metafields](http://www.accentuate.io/)
+- [Superfields](https://support.maestrooo.com/category/109-superfields)
 - [Product Reviews](https://help.shopify.com/manual/apps/apps-by-shopify/product-reviews)
