@@ -15,6 +15,7 @@
 **3. Guidelines**
   - Global
   - Structure a Snippet
+  - Paremeters
   - Inclusion
   - SVG icons
   - Tutorials
@@ -204,6 +205,31 @@ Sections are similar to Modules as they are elaborated chunk of codes, but their
 
 ### 📍 3. Guidelines
 #### Global
+- Don't use regular liquid brackets like this `{% ... %}` and `{{ .. }}` but make sure to use ones that include hyphens like this `{%- ... -%}` and `{{- ... -}}`. Adding hyphens to liquid brackets remove all unecessary white space around your liquid declaration.
+
+For example:
+```
+<span class="word">
+  {{ my_word }}
+</span>
+```
+will render HTML like this:
+```
+<span class="word">
+  Hello!
+</span>
+```
+Whereas using liquid brackets with hyphens like this:
+```
+<span class="word">
+  {{- my_word -}}
+</span>
+```
+will render HTML like this:
+```
+<span class="word">Hello!</span>
+```
+
 - For all JS asset files use the `script_tag` filter and for all Stylesheet asset files use the `stylesheet_tag` filter:
 
 ```
@@ -274,6 +300,25 @@ Sections are similar to Modules as they are elaborated chunk of codes, but their
 
 {% assign title = false %}
 {% assign index = false %}
+```
+
+#### Paremeters
+- When a snippet has more than 2 paremeters return to the line.
+
+Do this:
+
+```
+{% include 'hero',
+  title: my_title,
+  content: my_content,
+  image: my_image
+  cta_text: my_cta_text %}
+```
+
+Don't do this:
+
+```
+{% include 'hero', title: my_title, content: my_content, image: my_image, cta_text: my_cta_text %}
 ```
 
 #### Inclusion
