@@ -268,6 +268,26 @@ will render HTML like this:
 {% assign number = string_number | minus: 0 %}
 ```
 
+- Use `canonical_url` in `theme.liquid` to handle pages associated with no templates (commonly happens when apps renders page on the store).
+
+For example, a store locator app renders a map to locate the brand stores on the current Shopify store. This app uses no template and is render in `theme.liquid` where `{{- content_for_layout -}}` is located. If you need to render specific modules where the store locator app renders the map - A quick workaround is to use the `canonical_url`:
+
+Store Locator URL:
+`my_store.myshopify.com/apps/store-locator`
+
+Inside `theme.liquid`:
+```
+...
+{%- if canonical_url contains 'store-locator' %}
+  {%- include 'store-locator-hero' %}
+  // Where the app will renders its content.
+  {{- content_for_layout -}}
+{%- else -%}
+  {{- content_for_layout -}}
+{%- endif -%}
+..
+```
+
 #### Structure a Snippet
 - Snippets that are used in multiple templates (Modules like `hero` or `slideshow` - Components like `button` or `image`) shouldn't have any hard coded content - only variables whose values are inherited from the snippet parameters. All snippets variables should have a default value:
 
