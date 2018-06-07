@@ -3,7 +3,7 @@
 ### 📚 Table of Contents
 **1. Basics**
   - Liquid
-  - Theme Kit
+  - Barrel CLI
   - Base Theme
 
 **2. Building a Theme**
@@ -53,12 +53,13 @@ A more thorough documentation can be find [here](https://help.shopify.com/themes
   How much does this {{- product.title | capitalize -}} cost? It cost {{- product.title | money_with_currency -}}
   ```
 
-#### Theme Kit
-[Theme Kit](https://shopify.github.io/themekit/) is a command line tool used to interact with a Shopify theme. 
+#### Barrel CLI
+[Barrel CLI](https://github.com/barrel/barrel-cli) is a NPM package that we use heavily in theme development. 
 - Actions that can be performed:
-	- Watch for local changes and upload automatically to Shopify
-	- Upload Themes to Multiple Environments
-- Configuration for theme kit can be set up in the `config.yml` file located in the `/dist` directory of the project.
+	- Build CSS and javascript assets using Webpack, Babel, Postcss
+  - Live reloading in the browser using HMR
+	- Deploy themes to Shopify
+- Configuration for theme kit can be set up in the `config.yml` file located in the `/dist` or root directory of the project.
 
 #### Base Theme
 TO DO
@@ -72,8 +73,8 @@ Those are the 7 required directories for a Shopify theme:
 - `/config` - *Contains all the global [theme settings](https://help.shopify.com/themes/development/theme-editor/settings-schema).*
 - `/layout` - *Contains the "master" template `theme.liquid`. All templates are rendered inside this one.*
 - `/locales` - *Contains the translation files for the content on the store.*
-- `/sections` - *Contains all sections* 
-- `/snippets` - *Contains bits of codes that can be called in other templates. (In `/src`, this directory should have 3 sub directories `components`, `modules` and `lib`)*
+- `/modules` - *Contains most of the theme code, including snippets, sections and templates where applicable* 
+- `/snippets` - *Contains bits of liquid code that don't really fit into the modules directory*
 - `/templates` - *Contains all the templates.*
 
 #### Templates
@@ -448,14 +449,15 @@ Prioritize *components inside modules*, *modules inside sections* and *sections 
 - [Split Product Content](https://kb.barrelny.com/shopify-development-split-content/)
 
 #### Variables
+- Variables should be named with an underscore e.g. "variable_name" rather than camel case e.g. "variableName"
 - Liquid variables should be scoped to the module in which they are used. In most cases, you should not be declaring a variable in one file and using it inside of another.
 - Each variable should be reset to `nil` at the bottom of the file it's being used in.
 
 Do this (in one file):
 ```
-{%- assign VARIABLE_NAME = VARIABLE_VALUE | Default: blank -%}
+{%- assign variable_name = "value" | Default: blank -%}
 // do some stuff in your template file
-{%- assign VARIABLE_NAME = nil -%}
+{%- assign variable_name = nil -%}
 ``` 
 
 Don't do this: 
@@ -463,7 +465,7 @@ Don't do this:
 `file_1.liquid`
 
 ```
-{%- assign VARIABLE_NAME = VARIABLE VALUE | Default: blank -%}
+{%- assign variable_name = "value" | Default: blank -%}
 
 {%- include 'snippet_name' -%}
 ```
@@ -471,9 +473,9 @@ Don't do this:
 `snippet_name.liquid`
 
 ```
-<div class="{{- VARIABLE_NAME -}}"></div>
+<div class="{{- variable_name -}}"></div>
 
-{%- assign VARIABLE_NAME = nil -%}
+{%- assign variable_name = nil -%}
 ```
 * * *
 
