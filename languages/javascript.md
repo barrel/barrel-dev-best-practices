@@ -153,6 +153,10 @@ Ask yourself *"Will the supported browsers outlined in the SOW support this?"* w
 
 Make sure that Eslint has been added to the build script of your project. Use StandardJS rules with as few modifications as possible.
 
+#### 6️⃣ Only reference `.js-` prefixed classes in javascript
+
+The classes that are referenced in javascript should be different to the classes that are used to style elements. This separation of concerns provides a sense of security for a developer who may need to interact with your code in the future.
+
 ***
 
 #### 📍 Bundle Structure
