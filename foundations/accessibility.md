@@ -3,12 +3,12 @@
 - Automatically Changing Content
 - Alt Tags
 - Aria Attributes
-- Common jQuery Shims
 - Field Labels
 - Element Focus
 - Tab Indexing
 - Possible Issues
 - Definitions
+- Testing Directions
 - Resources
  
 ***
@@ -20,13 +20,13 @@ Any fixed, [non-critical](https://docs.google.com/document/d/1XUlG2O_zFGfBOgCt6V
 1. Accessibility
 1.  If modals are included towards the top of the page (or even the module they're in) screen readers will process their content as if it were immediately visible on the page (undesired).
 
-### Notes
-- HTML5's  template tag could be a great use for any modal content, but there is currently no support for IE11.
-
 ***
 #### 📍 Automatically Changing Content
 
 Auto-scrolling sliders, for example, will cause ADA issues as it can be difficult for users with disabilities to understand why content is changing on the site.
+
+Notes:
+- We need to test and establish some principles on handling large DOM transformations since they are inevitable in a lot of situations.
 
 ***
 #### 📍 Alt Tags
@@ -96,12 +96,18 @@ Do this:
 ***
 #### 📍 Aria Attributes
 
-It's important to add aria-label, role, and/or aria-labeledby attributes to describe what an element's purpose is. Issue was often thrown on HTML5 tags (specifically <section>) that are pretty ambiguous. This is pretty similar to Alt Tagging. [Documentation](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques)  Need to add more detail here -- what's the difference between aria and alt?
+It's important to add aria-label, role, and/or aria-labeledby attributes to describe what an element's purpose is. This issue was often thrown on HTML5 tags (specifically `<section>`) that are pretty ambiguous. This is pretty similar to Alt Tagging. [Documentation](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques)  
+
+Notes:
+- We need to add more detail here -- what's the difference between aria and alt?
 
 ***
 #### 📍 Field Labels
 
-Form fields need to have <label> tags to describe what information is expected. The label also needs to be visible, so we can't get away with having the markup there and hiding it in CSS. The proper solve in a lot of our design cases would be to position:absolute the labels and use them as we do the `placeholder` attribute, then move them out of the way or hide them with javascript. Google's forms are a good example. Need to add more detail here.
+Form fields need to have `<label>` tags to describe what information is expected. The label also needs to be visible, so we can't get away with having the markup there and hiding it in CSS. The proper solve in a lot of our design cases would be to position:absolute the labels and use them as we do the `placeholder` attribute, then move them out of the way or hide them with javascript. Google's forms are a good example. 
+
+Notes:
+- We need to add more detail here.
 
 ***
 #### 📍 Element Focus
@@ -111,18 +117,14 @@ Removing the :focus property from an element will throw accessibility issues on 
 ***
 #### 📍 Tab Indexing
 
-Most work will be to ensure the content flows naturally so that tab indexing works without additional development. This works relatively smooth across browsers, except Safari.
-
-Making Safari and a Mac accessible:
-1.  Testing on a Mac: System Preferences -> Keyboard -> ShortCuts (tab) -> Full Keyboard Access -> All Controls
-1.  For Tabbing to work on Safari: Preferences -> Advanced -> Press tab to highlight each item on a page (check this)
+Most work will be to ensure the content flows naturally so that tab indexing works without additional development. This works relatively smoothly across browsers, except Safari.
 
 Tab indexing natively follows your markup order. As such, your markup should be written in a way that reflects desktop designs first and then reflow to mobile designs from there (mobile users aren't tabbing the site).
 
 ***
 #### 📍 Possible Issues
 
-What project aspects to we currently have (or anticipate having) issues with?
+What project aspects do we currently have (or anticipate having) issues with?
 -   Standardizing heading tags (h1, h2, etc.)
 
 ***
@@ -143,14 +145,16 @@ An element or that does not immediately contribute to the user's experience upon
 
 Any content that is immediately visible within the browser's viewport when the page is initially loaded.
 
+*** 📍 Testing Directions
+How to make Safari on a Mac accessible:
+1.  Testing on a Mac: System Preferences -> Keyboard -> ShortCuts (tab) -> Full Keyboard Access -> All Controls
+1.  For Tabbing to work on Safari: Preferences -> Advanced -> Press tab to highlight each item on a page (check this)
+
 ***
 #### 📍 Resources
 
 ##### Articles
 <http://alistapart.com/article/my-accessibility-journey-what-ive-learned-so-far>
-
-##### Barrel Accessibility Slide Deck
-<https://www.dropbox.com/s/9mv6hd64wzse41p/BARREL_Accessibility.pdf?dl=0>
 
 ##### Courses
 <https://www.udacity.com/course/web-accessibility--ud891>
