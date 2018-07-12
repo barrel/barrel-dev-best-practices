@@ -25,7 +25,7 @@ Any fixed, [non-critical](https://docs.google.com/document/d/1XUlG2O_zFGfBOgCt6V
 
 Auto-scrolling sliders, for example, will cause ADA issues as it can be difficult for users with disabilities to understand why content is changing on the site.
 
-Notes:
+**Notes:**
 - We need to test and establish some principles on handling large DOM transformations since they are inevitable in a lot of situations.
 
 ***
@@ -98,7 +98,7 @@ Do this:
 
 It's important to add aria-label, role, and/or aria-labeledby attributes to describe what an element's purpose is. This issue was often thrown on HTML5 tags (specifically `<section>`) that are pretty ambiguous. This is pretty similar to Alt Tagging. [Documentation](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques)  
 
-Notes:
+**Notes:**
 - We need to add more detail here -- what's the difference between aria and alt?
 
 ***
@@ -106,7 +106,7 @@ Notes:
 
 Form fields need to have `<label>` tags to describe what information is expected. The label also needs to be visible, so we can't get away with having the markup there and hiding it in CSS. The proper solve in a lot of our design cases would be to position:absolute the labels and use them as we do the `placeholder` attribute, then move them out of the way or hide them with javascript. Google's forms are a good example. 
 
-Notes:
+**Notes:**
 - We need to add more detail here.
 
 ***
@@ -145,7 +145,8 @@ An element or that does not immediately contribute to the user's experience upon
 
 Any content that is immediately visible within the browser's viewport when the page is initially loaded.
 
-*** 📍 Testing Directions
+*** 
+#### 📍 Testing Directions
 How to make Safari on a Mac accessible:
 1.  Testing on a Mac: System Preferences -> Keyboard -> ShortCuts (tab) -> Full Keyboard Access -> All Controls
 1.  For Tabbing to work on Safari: Preferences -> Advanced -> Press tab to highlight each item on a page (check this)
