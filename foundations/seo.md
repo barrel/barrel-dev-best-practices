@@ -5,7 +5,6 @@
 Google accounts for about 65% of search market. 93% of visits to any site originate with a search. 75% of users do not go beyond the first page of search results. If the majority of visitors of any website start with a search, use google, and do not go beyond the first page of results, it's a website owners prerogative to make certain that their site is as optimized for those conditions as possible.
 
 ## Style-agnostic Tags
-
 Start with semantic, meaningful HTML to ensure content is organized in a logical and hierarchical manner. This takes planning, communication, and improvisation. Use style-agnostic tags and typographic classes to apply visual hierarchy; that is, do not rely on simply styling a tag without a class or id attached to it. This doesn't mean you can't have a basic style for tags, but it means that you should have override classes that can immediately change the appearance without having negative cascading effects.
 
 ```
@@ -46,9 +45,50 @@ There are not hard and fast rules. They are guidelines. Be flexible.
 ### Image Lazy/Deferred Loading
 Images can implement lazy load or deferred load as well as background images provided an img tag is available.
 
+### Structured Data
+- Structured data provides explicit clues about the meaning of a page to Google. Their essential for a website to provide informations to the customer and perform in the search results.
+- Google recommends using JSON-LD for structured data whenever possible. Below an example:
 ```
-EXAMPLES TBD
+<script type="application/ld+json">
+	{
+	  "@context": "http://schema.org",
+	  "@type": "Organization",
+	  "url": "http://www.example.com",
+	  "name": "Unlimited Ball Bearings Corp.",
+	  "contactPoint": {
+	    "@type": "ContactPoint",
+	    "telephone": "+1-401-555-1212",
+	    "contactType": "Customer service"
+	  }
+	}
+</script>
 ```
+- Make sure that every important pages have their own JSON-L for structured data. (i.e. Homepage, Product pages, Collection pages, Article pages, ...).
+- The [Google structured data Testing Tool](https://search.google.com/structured-data/testing-tool) is an easy and useful tool for validating structured data, and in some cases, previewing a feature in Google Search.
+
+### Sitemap
+Google is going to use what you submit in your XML sitemap as a clue to what's probably important on your site and should be indexed. Make sure to include for any Wordpress projects (Shopify handles generates it [automatically](https://help.shopify.com/en/manual/promoting-marketing/seo/find-site-map)).
+
+### Hreflang tags
+```
+<link rel="alternate" href="https://www.example.fr" hreflang="fr-FR" />
+<link rel="alternate" href="https://www.example.com" hreflang="en-US" />
+<link rel="alternate" href="https://global.example.com" hreflang="x-default" />
+```
+- The `Hreflang` tags tell Google which language you are using on a specific page, so the search engine can serve that result to users searching in that language.
+- The default `Hreflang` tag should default to the URL google should refer to when the website doesn’t have a specific URL for a specific language.
+
+### No Index
+```
+<meta name="robots" content="noindex" />
+```
+Use the `noindex` meta tag to prevent Google to crawl any pages that shouldn't be indexed. (i.e. Thank You pages after email sign up, Landing Pages for Retargeting, ...).
+
+### No Follow
+```
+<a href="http://www.example.com/" rel="nofollow">Anchor Text</a>
+```
+The `nofollow` rel attribute should be added to any external link that shouldn't be followed by Google and would potentially impact negatively the ranking of the page. A crawling tool should be used to validate the credibility of the link.
 
 ## Tools
 
