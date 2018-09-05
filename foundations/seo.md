@@ -46,8 +46,6 @@ There are not hard and fast rules. They are guidelines. Be flexible.
 Images can implement lazy load or deferred load as well as background images provided an img tag is available.
 
 ### Structured Data
-- Structured data provides explicit clues about the meaning of a page to Google. Their essential for a website to provide informations to the customer and perform in the search results.
-- Google recommends using JSON-LD for structured data whenever possible. Below an example:
 ```
 <script type="application/ld+json">
 	{
@@ -63,6 +61,8 @@ Images can implement lazy load or deferred load as well as background images pro
 	}
 </script>
 ```
+- Structured data provides explicit clues about the meaning of a page to Google. Their essential for a website to provide informations to the customer and perform in the search results.
+- Google recommends using JSON-LD for structured data whenever possible.
 - Make sure that every important pages have their own JSON-L for structured data. (i.e. Homepage, Product pages, Collection pages, Article pages, ...).
 - The [Google structured data Testing Tool](https://search.google.com/structured-data/testing-tool) is an easy and useful tool for validating structured data, and in some cases, previewing a feature in Google Search.
 
