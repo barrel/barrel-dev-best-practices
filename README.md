@@ -8,8 +8,8 @@ The Barrel approach to coding websites..
     - [CSS](/languages/css.md)
     - [PHP](/languages/php.md)
 - **Platforms**
-    - [Shopify](/platforms/shopify.md)
-    - [Wordpress](/platforms/wordpress.md)
+    - [Shopify](/platforms/shopify/theming.md)
+    - [Wordpress](/platforms/wordpress/wordpress.md)
 - **Foundations**
     - [SEO](/foundations/seo.md)
     - [User Experience](/foundations/seo.md)
