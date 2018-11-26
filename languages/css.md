@@ -391,9 +391,9 @@ Never select an element in javascript by a standard class, especially one that h
 }
 
 /* do this */
-.hero {
-  .hero__button {
-    color: black;  
-  }  
+.hero__button {
+    .hero & {
+        color: black;  
+    }
 }
 ```
