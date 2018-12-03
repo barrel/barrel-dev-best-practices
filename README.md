@@ -1,4 +1,4 @@
-# Barrel Best Practices() {
+# Nolte/Barrel Best Practices() {
 
 The Barrel approach to coding websites..
 
@@ -7,6 +7,7 @@ The Barrel approach to coding websites..
     - [Javascript](/languages/javascript.md)
     - [CSS](/languages/css.md)
     - [PHP](/languages/php.md)
+    - [HTML](/languages/html.md)
 - **Platforms**
     - [Shopify](/platforms/shopify.md)
     - [Wordpress](/platforms/wordpress.md)
