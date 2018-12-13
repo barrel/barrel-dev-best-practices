@@ -100,6 +100,9 @@ Launches the test runner in the interactive watch mode.<br> See the section abou
 ## Versioning
 <!-- Description about Semantic Versioning and how and when you have to update the version of the code for future references. -->
 
+## Git Ignore
+Every project should have a gitignore before commiting changes. Some suggestions are in [gitignore.md]
+
 ## Changelog link
 <!-- Link to the file with all the information -->
 Please read CHANGELOG.md this file are going to keep the changes of the project when a new release is sent to the master branch
