@@ -1,40 +1,54 @@
 # Project Title
-
 One Paragraph of project description goes here
 
 ## Build status badges
 <!-- (when possible) Bitbucket pipelines, travis, codeship, styleci -->
+![maintained](https://img.shields.io/badge/maintained-yes-brightgreen.svg)
+![wordpress](https://img.shields.io/badge/wordpress-%3E%3D4.8-green.svg)
+![php](https://img.shields.io/badge/php-%3E%3D7.1-green.svg)
+[![GitHub contributors](https://img.shields.io/github/contributors/wearenolte/lean-theme.svg)](https://github.com/wearenolte/lean-theme/graphs/contributors)
+
+## Contents
+- [Project Title](#project-title)
+- [Build status badges](#build-status-badges)
+- [Contents](#contents)
+- [Environment info](#environment-info)
+- [Pre-requisites](#pre-requisites)
+- [Getting Started](#getting-started)
+- [Installing](#installing)
+- [Development and Production Building commands](#development-and-production-building-commands)
+	- [Production build command](#production-build-command)
+  - [Development command](#development-command)- [Troubleshoting](#troubleshoting)
+- [Built With](#built-with)
+- [Project Code Style](#project-code-style)
+- [Linters and tools](#linters-and-tools)
+- [Third Party plugins and libraries](#third-party-plugins-and-libraries)
+	- [FrontEnd](#frontend)
+	- [BackEnd](#backend)
+- [Scripts and Helper functions](#scripts-and-helper-functions)
+- [Filters and Hooks](#filters-and-hooks)
+- [Running the tests](#running-the-tests)
+- [API Reference](#api-reference)
+- [Versioning](#versioning)
+- [Git Ignore](#git-ignore)
+- [Changelog link](#changelog-link)
+- [Credits](#credits)
+- [Contributing](#contributing)
+- [License](#license)
 
 
 ## Environment info
 <!-- Information needed to find where the site is hosted -->
-
 Example
 This site is hosted in [Pantheon](https://dashboard.pantheon.io/sites/702fff37-8e52-403a-8fc4-c0f2b0d0a900#dev/code)
 with Builds from [Deploybot](https://moxie.deploybot.com/129151-Tenementmuseum)
 
-- [Test](http://test-tenement-museum.pantheonsite.io/) - Not visible for the client.
-- [Develop](http://test-tenement-museum.pantheonsite.io/) - Visible for the client.
-- [Production](http://test-tenement-museum.pantheonsite.io/) - Live site.
+- [Dev](http://link-to-the-environment.io/)
+- [Test](http://link-to-the-environment.io/)
+- [Live](http://link-to-the-environment.io/)
 
-## Built With (and versions)
-<!-- A list of techs / Frameworks including versions. -->
 
-Example
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-### Project Code Style
-<!-- Discribe the style used inside the project -->
-
-Example
-This project follows StandardJS "JavaScript Standard Style" coding style conventions. Visit JavaScript Standard Style for a complete list of coding style rules followed in this project.
-
-### Linters and tools
-<!-- List and explain how to use Linter tools -->
-
-### Prerequisites
+### Pre-requisites
 <!-- A list of development machine requirements to be able to run this project. -->
 
 What things you need to install the software and how to install them
@@ -61,8 +75,39 @@ And repeat
 until finished
 ```
 
-## Deployment
-<!-- Add additional notes about how to deploy this on a live system -->
+## Development and Production Building commands
+<!-- List of comands, dependendency manager, libraries, etc. And how to run them -->
+
+### Production build command
+```bash
+composer build
+```
+
+### Development command
+```bash
+composer serve
+```
+
+This command will run the Webpack development configuration which will start a watcher that compiles the SASS and JS files as soon as you save them.
+
+It will also enable source maps for easy debugging.
+
+## Built With
+<!-- A list of techs / Frameworks including versions. -->
+
+Example
+* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
+* [Maven](https://maven.apache.org/) - Dependency Management
+* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+
+### Project Code Style
+<!-- Discribe the style used inside the project -->
+
+Example
+This project follows StandardJS "JavaScript Standard Style" coding style conventions. Visit JavaScript Standard Style for a complete list of coding style rules followed in this project.
+
+### Linters and tools
+<!-- List and explain how to use Linter tools -->
 
 ## Troubleshoting
 <!-- If found, list possible solutions to common problems -->
@@ -79,7 +124,7 @@ until finished
 ## Filters and Hooks
 <!-- List and explain how to run them inside the project -->
 
-## Running the tests and QA tools
+## Running the tests
 <!-- Explaining how to run test and where to add tests -->
 
 Example
