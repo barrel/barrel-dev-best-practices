@@ -1,37 +1,40 @@
 # Project Title
 One Paragraph of project description goes here
 
-## Contents
-- [Project Title](#project-title)
-  - [Contents](#contents)
-  - [Build status badges](#build-status-badges)
-  - [Environment info](#environment-info)
-  - [Prerequisites](#prerequisites)
-  - [Getting Started](#getting-started)
-  - [Installing](#installing)
-  - [Built With](#built-with)
-  - [Project Code Style](#project-code-style)
-  - [Linters and tools](#linters-and-tools)
-  - [Deployment](#deployment)
-  - [Troubleshoting](#troubleshoting)
-  - [Third Party plugins and libraries](#third-party-plugins-and-libraries)
-  - [Scripts and Helper functions](#scripts-and-helper-functions)
-  - [Filters and Hooks](#filters-and-hooks)
-  - [Running the tests](#running-the-tests)
-  - [API Reference](#api-reference)
-  - [Versioning](#versioning)
-  - [Git Ignore](#git-ignore)
-  - [Changelog link](#changelog-link)
-  - [Credits](#credits)
-  - [Contributing](#contributing)
-  - [License](#license)
-
 ## Build status badges
 <!-- (when possible) Bitbucket pipelines, travis, codeship, styleci -->
 ![maintained](https://img.shields.io/badge/maintained-yes-brightgreen.svg)
 ![wordpress](https://img.shields.io/badge/wordpress-%3E%3D4.8-green.svg)
 ![php](https://img.shields.io/badge/php-%3E%3D7.1-green.svg)
 [![GitHub contributors](https://img.shields.io/github/contributors/wearenolte/lean-theme.svg)](https://github.com/wearenolte/lean-theme/graphs/contributors)
+
+## Contents
+- [Project Title](#project-title)
+- [Build status badges](#build-status-badges)
+- [Contents](#contents)
+- [Environment info](#environment-info)
+- [Pre-requisites](#pre-requisites)
+- [Getting Started](#getting-started)
+- [Installing](#installing)
+- [Development and Production Building commands](#development-and-production-building-commands)
+	- [Production build command](#production-build-command)
+  - [Development command](#development-command)- [Troubleshoting](#troubleshoting)
+- [Built With](#built-with)
+- [Project Code Style](#project-code-style)
+- [Linters and tools](#linters-and-tools)
+- [Third Party plugins and libraries](#third-party-plugins-and-libraries)
+	- [FrontEnd](#frontend)
+	- [BackEnd](#backend)
+- [Scripts and Helper functions](#scripts-and-helper-functions)
+- [Filters and Hooks](#filters-and-hooks)
+- [Running the tests](#running-the-tests)
+- [API Reference](#api-reference)
+- [Versioning](#versioning)
+- [Git Ignore](#git-ignore)
+- [Changelog link](#changelog-link)
+- [Credits](#credits)
+- [Contributing](#contributing)
+- [License](#license)
 
 
 ## Environment info
@@ -45,7 +48,7 @@ with Builds from [Deploybot](https://moxie.deploybot.com/129151-Tenementmuseum)
 - [Live](http://link-to-the-environment.io/)
 
 
-### Prerequisites
+### Pre-requisites
 <!-- A list of development machine requirements to be able to run this project. -->
 
 What things you need to install the software and how to install them
@@ -72,6 +75,23 @@ And repeat
 until finished
 ```
 
+## Development and Production Building commands
+<!-- List of comands, dependendency manager, libraries, etc. And how to run them -->
+
+### Production build command
+```bash
+composer build
+```
+
+### Development command
+```bash
+composer serve
+```
+
+This command will run the Webpack development configuration which will start a watcher that compiles the SASS and JS files as soon as you save them.
+
+It will also enable source maps for easy debugging.
+
 ## Built With
 <!-- A list of techs / Frameworks including versions. -->
 
@@ -88,9 +108,6 @@ This project follows StandardJS "JavaScript Standard Style" coding style convent
 
 ### Linters and tools
 <!-- List and explain how to use Linter tools -->
-
-## Deployment
-<!-- Add additional notes about how to deploy this on a live system -->
 
 ## Troubleshoting
 <!-- If found, list possible solutions to common problems -->
