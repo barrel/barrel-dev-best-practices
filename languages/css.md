@@ -345,6 +345,10 @@ Mixins duplicate code, so be careful what you're duplicating. Extends *hoist* se
 
 **But:**
 Utility mixins like for gradients, etc, are a different beast entirely and are extremely helpful in certain situations. For instance, if Autoprefixer is not available (like on a Shopify build), a mixin can be used to prefix transitions and transforms.
+
+**Functional CSS DOM classes vs. Extends**
+As a best practice, leverage the `lib/**.css` CSS classes in the DOM instead of Extending them into module-specific CSS declarations. However, Extends are helpful when you do not have access to the DOM, such as styling a WYSIWYG module. In cases such as this, use `@extend %utility-class` over `@extend .utility-class` to avoid massive, unreadable selectors. This can be done in both Sass and Postcss plugins that support Sass-like syntax.
+
 ***
 ### 📍 Stateful Classes
 Introduced by SMACSS, stateful classes tell a developer that a component is in a current *state*, or that a script is acting upon the component. Stateful classes *are not global*, meaning they do not carry styles on their own. Scope stateful classes to an existing selector using "active" prefixes `.is-`, `.has-`, `.was-`, etc. 
