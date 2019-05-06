@@ -12,9 +12,11 @@ One Paragraph of project description goes here
 - [Project Title](#project-title)
 - [Build status badges](#build-status-badges)
 - [Contents](#contents)
+- [Project overview](#project-overview)
 - [Environment info](#environment-info)
 - [Pre-requisites](#pre-requisites)
 - [Getting Started](#getting-started)
+- [Quick start](#quick-start)
 - [Installing](#installing)
 - [Development and Production Building commands](#development-and-production-building-commands)
 	- [Production build command](#production-build-command)
@@ -31,11 +33,21 @@ One Paragraph of project description goes here
 - [API Reference](#api-reference)
 - [Versioning](#versioning)
 - [Git Ignore](#git-ignore)
+- [Known issues](#known-issues)
 - [Changelog link](#changelog-link)
 - [Credits](#credits)
 - [Contributing](#contributing)
 - [License](#license)
 
+## Project overview
+<!-- Describe the client goals and objectives, the reasons why we build this web site/app. -->
+
+### Site / App objectives
+<!-- Recomendation: Use S.M.A.R.T. objectives -->
+
+<!-- If there is a Confluence space for the project link it here. Recommendation: in the Confluence Space add third-party integrations (not plugins), Cron jobs and all information that can complement this readme file content. -->
+Example
+- [Confluence space](http://link-to-confluence-space.io/)
 
 ## Environment info
 <!-- Information needed to find where the site is hosted -->
@@ -59,6 +71,9 @@ Give examples
 
 ## Getting Started 
 <!-- These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system. -->
+
+## Quick start
+<!-- A list of all the commands that we need to run in order to make the project works. -->
 
 ### Installing
 <!-- A step by step series of examples that tell you how to get a development env running -->
@@ -147,6 +162,9 @@ Launches the test runner in the interactive watch mode.<br> See the section abou
 
 ## Git Ignore
 Every project should have a gitignore before commiting changes. Some suggestions are in [gitignore.md]
+
+## Known issues
+<!-- Add all the known issues for the project setup, like conflicts between dependencies versions, OS dependencies and if is possible link the solution for the issue. -->
 
 ## Changelog link
 <!-- Link to the file with all the information -->
