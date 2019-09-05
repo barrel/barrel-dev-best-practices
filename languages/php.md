@@ -81,6 +81,20 @@ Use of the short echo tag, `<?=`, is permissable but can only be safely used on 
 
 Files that are pure PHP should have `<?php` on line one and should not have any new lines or white space at the top of the file. It is also best practice to omit the closing PHP tag at the end of the file in order to avoid the output buffer from sending the output unintentially.
 
+### Checking value not false or empty
+
+We often need to check if a custom field is populated, was unpopulated, or doesn't even exist. This *could* be written as 3 conditions to check if not null, not an empty string, and not false. Instead use the `empty()` to check if the variable has an empty value empty string, 0, NULL or False with 1 method.
+
+**Do**
+```php
+    if ( !empty($var) ) :
+```
+
+**Do not**
+```php
+    if ( isset($var) && $var !== '' && $var !== false ) :
+```
+
 ### Control Structures within Classes
 
 When writing classes, functions, control, or conditional structures with PHP, please use curly braces exclusively rather than mixing with the alternative syntax for control structures (note on exception below). Whether or not curly braces stand on their own or inline with the block is purely conventional. The more important thing is that they be consistent within a programming language across the project.
